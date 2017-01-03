@@ -10,30 +10,30 @@ import objects from "../../utils/objects";
 
 class Response {
     
-    // :: ('a -> ()) -> ('b -> ()) -> (() -> ()) -> Response 'a 'b
+    // :: ('a -> unit ) -> ('b -> unit  -> (unit -> unit) -> Response 'a 'b
     constructor(success, failure, timeout) {
         this._success = success;
         this._failure = failure;
         this._timeout = timeout
     }
     
-    // :: 'a -> ()    
+    // :: 'a -> unit   
     success(value) {
         this._success(value);           
     }
     
-    // :: 'b -> ()    
+    // :: 'b -> unit  
     failure(value) {
         this._failure(value);               
     }
         
-    // :: () -> ()    
+    // :: unit -> unit   
     timeout() {
         this._timeout();               
     }    
 }
 
-// :: ('a -> ()) -> ('b -> ()) -> (() -> ()) -> Response 'a 'b throws ReferenceError
+// :: ('a -> unit ) -> ('b -> unit ) -> (unit  -> unit ) -> Response 'a 'b throws ReferenceError
 function response(success, failure, timeout) {
     objects.requireNonNull(success, "success")
     objects.requireNonNull(failure, "failure")

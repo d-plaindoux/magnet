@@ -7,9 +7,9 @@
  */
 
 // :: ('a, string) -> 'a throws Error
-function requireNonNull(value, message) {
+function requireNonNull(value, variableName) {
     if (value === null || value === undefined) {
-        throw new ReferenceError(message + " is not defined");
+        throw new ReferenceError(variableName + " is not defined");
     }
     
     return value;

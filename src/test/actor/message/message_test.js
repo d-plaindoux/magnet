@@ -6,9 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-import message from '../../../lib/actor/message/message';
-import request from '../../../lib/actor/message/request';
-import response from '../../../lib/actor/message/response';
+import message from '../../../lib/actor/message';
 
 export default  {
   setUp: function(done) {
@@ -18,10 +16,10 @@ export default  {
   'message creation': function(test) {
     test.expect(1);    
       
-    var aRequest = request("a",[1,2]),
-        aResponse = response(_ => null, _ => null, _ => null);
+    var aRequest = message.request("a",[1,2]),
+        aResponse = message.response(_ => null, _ => null, _ => null);
       
-    test.ok(message("123",request, response), 'should create a message.');      
+    test.ok(message.message("123", aRequest, aResponse), 'should create a message.');      
       
     test.done();
   },
@@ -29,10 +27,10 @@ export default  {
   'message identifier': function(test) {
     test.expect(1);    
       
-    var aRequest = request("a",[1,2]),
-        aResponse = response(_ => null, _ => null, _ => null);
+    var aRequest = message.request("a",[1,2]),
+        aResponse = message.response(_ => null, _ => null, _ => null);
       
-    test.equals(message("123", aRequest, aResponse).identifier(), "123", 'should retreive the identifier.');      
+    test.equals(message.message("123", aRequest, aResponse).identifier(), "123", 'should retreive the identifier.');      
       
     test.done();
   },
@@ -40,10 +38,10 @@ export default  {
   'message request': function(test) {
     test.expect(1);    
       
-    var aRequest = request("a",[1,2]),
-        aResponse = response(_ => null, _ => null, _ => null);
+    var aRequest = message.request("a",[1,2]),
+        aResponse = message.response(_ => null, _ => null, _ => null);
       
-    test.deepEqual(message("123", aRequest, aResponse).request(), aRequest, 'should retreive the request.');      
+    test.deepEqual(message.message("123", aRequest, aResponse).request(), aRequest, 'should retreive the request.');      
       
     test.done();
   },
@@ -51,10 +49,10 @@ export default  {
   'message response': function(test) {
     test.expect(1);    
       
-    var aRequest = request("a",[1,2]),
-        aResponse = response(_ => null, _ => null, _ => null);
+    var aRequest = message.request("a",[1,2]),
+        aResponse = message.response(_ => null, _ => null, _ => null);
       
-    test.deepEqual(message("123", aRequest, aResponse).response(), aResponse, 'should retreive the response.');      
+    test.deepEqual(message.message("123", aRequest, aResponse).response(), aResponse, 'should retreive the response.');      
       
     test.done();
   },

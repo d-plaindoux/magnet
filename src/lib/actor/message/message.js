@@ -17,23 +17,23 @@ class Message {
         this._response = response;
     }
     
-    // :: -> string
+    // :: unit -> string
     identifier() {
         return this._identifier;
     }
     
-    // :: -> Request
+    // :: unit -> Request
     request() {
         return this._request;
     }
     
-    // :: -> Response 'a 'b
+    // :: unit -> Response 'a 'b
     response() {
         return this._response;
     }
 }
 
-// :: (string, Request,Response 'a 'b) -> Message 'a 'b throws ReferenceError
+// :: (string, Request, Response 'a 'b) -> Message 'a 'b throws ReferenceError
 function message(identifier, request, response) {
     objects.requireNonNull(identifier, "identifier")
     objects.requireNonNull(request, "request")

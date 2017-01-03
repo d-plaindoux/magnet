@@ -16,12 +16,12 @@ class Request {
         this._parameters = parameters;
     }
     
-    // :: -> string
+    // :: unit -> string
     name() {
         return this._name;
     }
     
-    // :: -> [Any]
+    // :: unit -> [Any]
     parameters() {
         return this._parameters;
     }
