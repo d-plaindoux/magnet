@@ -1,0 +1,56 @@
+{
+  "name": "magnet",
+  "description": "Multi-Agent network",
+  "license": "LGPL-2.1",
+  "version": "0.0.1",
+  "keywords": ["actor","messaging","collaboration","distribution"],
+  "homepage": "https://github.com/d-plaindoux/magnet",
+  "author": {
+    "name": "Didier Plaindoux",
+    "email": "d.plaindoux@free.fr",
+    "url": "d.plaindoux.free.fr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/d-plaindoux/magnet"
+  },
+  "bugs": {
+    "url": "https://github.com/d-plaindoux/magnet/issues"
+  },
+  "licenses": [
+    {
+      "type": "LGPL2",
+      "url": "https://github.com/d-plaindoux/magnet/blob/master/LICENSE-LGPL2"
+    }
+  ],
+  "main": "build/lib/index.js",
+  "engines": {
+    "node": ">= 5.7.0"
+  },
+  "scripts": {
+    "prepublish": "echo '--- Prepublishing ---\n' && npm run test && npm run compile",
+    "compile":    "rm -rf build/ && mkdir build && babel src --out-dir build  --source-maps",
+    "dev":        "babel --watch src --out-dir dist",
+    "lint":       "eslint src/**",
+    "test":       "npm run compile && nodeunit build/test/index.js",
+    "cover":      "rm -rf coverage && mkdir coverage && babel-node node_modules/.bin/babel-istanbul cover --dir coverage/istanbul node_modules/.bin/nodeunit src/test/index.js",
+    "coveralls":  "cat coverage/istanbul/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "check":      "npm run lint && npm run test && npm run cover && npm run coveralls",
+    "concat":     "rm -rf dist/ && mkdir dist && npm run compile && browserify build/lib/index.js -o index.js",
+    "dist":       "rm -rf dist/ && mkdir dist && npm run compile && browserify -t uglifyify build/lib/index.js -o dist/parser-combinator.min.js",
+    "clean":      "rm -rf dist/ && rm -fr coverage/ && rm -fr build/"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-core": "^6.10.4",
+    "babel-eslint": "^6.1.2",
+    "babel-istanbul": "^0.8.0",
+    "babel-preset-es2015": "^6.9.0",
+    "browserify": "~9.0.3",
+    "coveralls": "~2.11.2",
+    "eslint": "^3.3.0",
+    "nodeunit": "~0.9.0",
+    "uglifyify": "^3.0.2"
+  },
+  "dependencies": {}
+}
