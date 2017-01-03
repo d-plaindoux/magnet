@@ -37,7 +37,7 @@
     "coveralls":  "cat coverage/istanbul/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "check":      "npm run lint && npm run test && npm run cover && npm run coveralls",
     "concat":     "rm -rf dist/ && mkdir dist && npm run compile && browserify build/lib/index.js -o index.js",
-    "dist":       "rm -rf dist/ && mkdir dist && npm run compile && browserify -t uglifyify build/lib/index.js -o dist/parser-combinator.min.js",
+    "dist":       "rm -rf dist/ && mkdir dist && npm run compile && browserify -t uglifyify build/lib/index.js -o dist/magnet.min.js",
     "clean":      "rm -rf dist/ && rm -fr coverage/ && rm -fr build/"
   },
   "devDependencies": {
