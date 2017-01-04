@@ -6,12 +6,10 @@
  * Licensed under the LGPL2 license.
  */
 
-import message from "./message";
 import request from "./request"
 import response from "./response";
 
 export default {
-    message, 
     request, 
     response
 }
