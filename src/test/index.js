@@ -12,10 +12,14 @@ import responseTest from './actor/message/response_test';
 import requestTest from './actor/message/request_test';
 
 import coordinatorTest from './actor/core/coordinator_test'
+import localActorTest from './actor/core/local_actor_test'
 
 export {
     objectsTest,        
+    
     responseTest, 
     requestTest,
-    coordinatorTest
+    
+    coordinatorTest,
+    localActorTest
 }

@@ -29,7 +29,7 @@ class Request {
 
 // :: (string,[Any]) -> Request throws ReferenceError 
 function request(name, parameters) {
-    objects.requireNonNull(name, "name")
+    objects.requireNonNull(name, "name");
     objects.requireNonNull(parameters, "parameters")
 
     return new Request(name, parameters);

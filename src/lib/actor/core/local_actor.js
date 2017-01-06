@@ -6,27 +6,30 @@
  * Licensed under the LGPL2 license.
  */
 
+
 import BoundActor from "./bound_actor";
+import objects from "../../utils/objects";
 
 class LocalActor extends BoundActor {
     
-    constructor(coordinator, identifier) {
-        super(coordinator, identifier);        
+    constructor(coordinator, identifier, model) {
+        super(coordinator, identifier);       
+        
+        this.model = model;
     }
     
     askNow(request, response) {
         try {
-            const method = this.model[request.getName()];
-
-            if (method) {
-                const result = method.apply(this.model, request.getParameters());
+            if (this.model[request.name()]) {
+                const method = this.model[request.name()];                
+                const result = method.apply(this.model, request.parameters());
             
                 if (response) {
                     response.success(result);
                 }
             } else if (this.model.receiveRequest) {
                 this.model.receiveRequest(request, response);
-            } else {
+            } else {                
                 throw new EvalError("Actor entry not found");
             }
         } catch (error) {
@@ -40,8 +43,12 @@ class LocalActor extends BoundActor {
        
 }
 
-function localActor(coordinator, identifier) {
-    return new LocalActor(coordinator, identifier);
+function localActor(coordinator, identifier, model) {
+    objects.requireNonNull(coordinator, "coordinator");
+    objects.requireNonNull(identifier, "identifier");
+    objects.requireNonNull(model, "model");
+    
+    return new LocalActor(coordinator, identifier, model);
 }
 
 export default localActor;
