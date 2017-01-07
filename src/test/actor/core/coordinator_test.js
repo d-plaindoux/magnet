@@ -8,6 +8,19 @@
 
 import coordinator from '../../../lib/actor/core/coordinator';
 
+import request from '../../../lib/actor/message/request';
+import response from '../../../lib/actor/message/response';
+
+class Test0 {
+    constructor() {
+        this.value = 1;
+    }
+    
+    getValue() {
+        return this.value;
+    }
+}
+
 export default  {
   setUp: function(done) {
     done();
@@ -45,7 +58,7 @@ export default  {
     test.done();
   },
         
-  'coordinator can check an defined actor': function(test) {
+  'coordinator can check an existing actor': function(test) {
     test.expect(1);    
       
     const aCoordinator = coordinator();
@@ -54,6 +67,22 @@ export default  {
       
     test.ok(aCoordinator.hasActor("test"), 'should retreive an actor.');      
       
+    test.done();
+  },
+        
+  'coordinator can ask immediately an existing actor': function(test) {
+    test.expect(1);    
+      
+    var value = 0;
+      
+    const aCoordinator = coordinator(),
+          aResponse = response(v => value = v, _ => null, _ => null);
+      
+    aCoordinator.actor('test').bind(new Test0()),
+    aCoordinator.askNow('test', request("getValue",[]), aResponse);
+        
+    test.equal(value, 1, 'should call immediately an test Actor getValue.');      
+        
     test.done();
   },
 

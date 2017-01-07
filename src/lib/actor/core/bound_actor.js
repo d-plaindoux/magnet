@@ -22,7 +22,7 @@ class /*abstract*/ BoundActor extends Actor {
         return true;
     }
 
-    bindToObject(model) {
+    bind(model) {
         throw new EvalError("Actor already bound");
     }    
 }

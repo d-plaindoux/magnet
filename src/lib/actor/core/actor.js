@@ -45,28 +45,23 @@ class /* abstract */ Actor {
     // Management corner ...
     //
 
-    activate() {
-        this.coordinator.activateActor(this);
-    }
-
-    suspend() {
-        this.coordinator.deactivateActor(this);
-    }
-
-    dispose() {
-        this.coordinator.disposeActor(this.identifier);
-    }
-
-    bindToObject(model) {
-        var anActor = localActor(this, jObj.bless(model, { actorId:this.identifier, coordinator:this.coordinator }));
+    bind(model) {
+        var anActor = localActor(this.identifier, this.coordinator, model);
         this.coordinator.registerActor(anActor);
         
         if (model.boundAsActor) {
             model.boundAsActor();
         }
-        
+
         return anActor;
     }    
+
+    unbind() {
+        if (model.unboundAsActor) {
+            model.unboundAsActor();
+        }        
+    }
+
 }
 
 export default Actor;

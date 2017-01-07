@@ -23,14 +23,14 @@ class UnboundActor extends Actor {
         throw new EvalError("Actor unbound");
     }
     
-    bindToObject(model) {
+    bind(model) {
         var anActor = localActor(this.coordinator, this.identifier, model);
         this.coordinator.registerActor(anActor);
         
         if (model.boundAsActor) {
             model.boundAsActor();
         }
-        
+
         return anActor;
     }    
 }

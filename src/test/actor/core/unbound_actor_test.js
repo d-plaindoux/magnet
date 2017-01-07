@@ -68,7 +68,7 @@ export default  {
     const anUnboundActor = unboundActor(coordinator(), "test"),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    test.ok(anUnboundActor.bindToObject(new Test0()).isBound(), EvalError, "should bind an unbound actor");
+    test.ok(anUnboundActor.bind(new Test0()).isBound(), EvalError, "should bind an unbound actor");
       
     test.done();
   },

@@ -14,8 +14,6 @@ class Coordinator {
     constructor() {
         this.universe = {};
         
-        this.universe = {};
-        this.activeActors = [];
         this.pendingJobs = [];
         
         this.intervalJobs = 100 /*ms*/;
@@ -98,7 +96,7 @@ class Coordinator {
     actorRunner() {
         const self = this;
 
-        this.activeActors.forEach(function (actor) {
+        this.universe.forEach(function (actor) {
             if (actor.pendingJobs.length !== 0) {
                 self.pendingJobs.push(actor.pendingJobs.shift());
             }
@@ -115,14 +113,16 @@ class Coordinator {
     // Actor (un)registration features
     //
 
-    activateActor(actor) {
-        this.activeActors.push(actor);
+    registerActor(anActor) {
+        this.universe[anActor.getIdentifier()] = anActor;
     }
 
-    deactivateActor(identifier) {
-        this.activeActors = this.activeActors.filter(function (actor) {
-            return actor.identifier !== identifier;
-        });
+    disposeActor(identifier) {
+        if (this.hasActor(identifier)) {
+            this.deactivateActor(id);
+            this.actor(identifier).unbind();
+            delete this.universe[id];            
+        }
     }
 
     //
@@ -138,20 +138,10 @@ class Coordinator {
 
         if (!anActor) {
             anActor = unboundActor(this, identifier);
-            this.universe[anActor.getIdentifier()] = anActor;
+            this.registerActor(anActor);
         }
 
         return anActor;
-    }
-
-    registerActor(anActor) {
-        this.universe[anActor.getIdentifier()] = anActor;
-        this.activateActor(anActor);
-    }
-
-    disposeActor(id) {
-        this.deactivateActor(id);
-        delete this.universe[id];
     }
 
     //
@@ -159,8 +149,8 @@ class Coordinator {
     //
 
     ask(identifier, request, response) {
-        if (this.universe.hasOwnProperty(identifier)) {
-            this.universe[identifier].ask(request, response);
+        if (this.hasActor(identifier)) {
+            this.actor(identifier).ask(request, response);
             this.startActorRunner();
         } else {
             if (response) {
@@ -172,8 +162,8 @@ class Coordinator {
     }
 
     askNow(identifier, request, response) {
-        if (this.universe.hasOwnProperty(identifier)) {
-            this.universe[identifier].askNow(request, response);
+        if (this.hasActor(identifier)) {
+            this.actor(identifier).askNow(request, response);
         } else {
             if (response) {
                 response.failure(new EvalError("Actor not found"));
@@ -184,12 +174,7 @@ class Coordinator {
     }
 
     broadcast(request) {
-        var identifier;
-        for (identifier in this.universe) {
-            if (this.universe.hasOwnProperty(identifier)) {
-                this.universe[identifier].ask(request);
-            }
-        }
+        this.universe.forEach(anActor => anActor(identifier).ask(request));
     }
 
 }
