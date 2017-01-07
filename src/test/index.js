@@ -13,6 +13,7 @@ import requestTest from './actor/message/request_test';
 
 import coordinatorTest from './actor/core/coordinator_test'
 import localActorTest from './actor/core/local_actor_test'
+import unboundActorTest from './actor/core/unbound_actor_test'
 
 export {
     objectsTest,        
@@ -21,5 +22,7 @@ export {
     requestTest,
     
     coordinatorTest,
-    localActorTest
+    localActorTest,
+    unboundActorTest
+        
 }

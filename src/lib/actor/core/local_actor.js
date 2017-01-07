@@ -30,7 +30,7 @@ class LocalActor extends BoundActor {
             } else if (this.model.receiveRequest) {
                 this.model.receiveRequest(request, response);
             } else {                
-                throw new EvalError("Actor entry not found");
+                throw new EvalError("Actor behavior not found");
             }
         } catch (error) {
             if (response) {

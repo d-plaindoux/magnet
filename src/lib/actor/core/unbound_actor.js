@@ -20,7 +20,7 @@ class UnboundActor extends Actor {
     }
 
     askNow(request, response) {
-        throw new EvalError("Actor not yet bound");
+        throw new EvalError("Actor unbound");
     }
     
     bindToObject(model) {

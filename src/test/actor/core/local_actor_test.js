@@ -12,7 +12,7 @@ import localActor from '../../../lib/actor/core/local_actor';
 import request from '../../../lib/actor/message/request';
 import response from '../../../lib/actor/message/response';
 
-class Test {
+class Test0 {
     constructor() {
         this.value = 1;
     }
@@ -23,6 +23,12 @@ class Test {
 
     setValue(value) {
         this.value = value;
+    }
+}
+
+class Test1 extends Test0 {
+    constructor() {
+        super();
     }
     
     receiveRequest(request, response) {
@@ -38,7 +44,15 @@ export default  {
   'local actor creation': function(test) {
     test.expect(1);    
       
-    test.ok(localActor(coordinator(), "test", new Test()), 'should create a local Actor.');      
+    test.ok(localActor(coordinator(), "test", new Test0()), 'should create a local Actor.');      
+      
+    test.done();
+  },
+    
+  'local actor is bound': function(test) {
+    test.expect(1);    
+      
+    test.ok(localActor(coordinator(), "test", new Test0()).isBound(), 'should create a bound Actor.');      
       
     test.done();
   },
@@ -48,7 +62,7 @@ export default  {
     
     var value = 0;
       
-    const aLocalActor = localActor(coordinator(), "test", new Test()),
+    const aLocalActor = localActor(coordinator(), "test", new Test0()),
           aResponse = response(v => value = v, _ => null, _ => null);
       
     aLocalActor.askNow(request("getValue",[]), aResponse);
@@ -63,7 +77,7 @@ export default  {
     
     var value = 0;
       
-    const aLocalActor = localActor(coordinator(), "test", new Test()),
+    const aLocalActor = localActor(coordinator(), "test", new Test0()),
           aResponse = response(v => value = v, _ => null, _ => null);
       
     aLocalActor.askNow(request("setValue",[2]));
@@ -74,20 +88,35 @@ export default  {
     test.done();
   },
 
-
-  'local actor calling undefined method': function(test) {
+  'local actor calling undefined method succeed': function(test) {
     test.expect(1);    
     
     var value = 0;
       
-    const aLocalActor = localActor(coordinator(), "test", new Test()),
+    const aLocalActor = localActor(coordinator(), "test", new Test1()),
           aResponse = response(v => value = v, _ => null, _ => null);
       
     aLocalActor.askNow(request("testMethod",[]), aResponse);
       
-    test.equal(value, "testMethod", 'should call immediately a local Actor getValue.');      
+    test.equal(value, "testMethod", 'should call immediately a local Actor unkown method.');      
       
     test.done();
-  },}
+  },
+
+  'local actor calling undefined method fails': function(test) {
+    test.expect(1);    
+    
+    var value = 0;
+      
+    const aLocalActor = localActor(coordinator(), "test", new Test0()),
+          aResponse = response(v => null, v => value = v, _ => null);
+      
+    aLocalActor.askNow(request("testMethod",[]), aResponse);
+      
+    test.deepEqual(value, new EvalError("Actor behavior not found"), 'should not call immediately a local Actor unknwon method.');      
+      
+    test.done();
+  },
+}
     
     
