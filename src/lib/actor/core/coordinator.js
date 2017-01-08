@@ -19,6 +19,8 @@ class Coordinator {
         this.intervalJobs = 100 /*ms*/;
         this.intervalActors = 100 /*ms*/;
         
+        this.started = false;
+        
         this.jobRunnerInterval = undefined;
         this.actorRunnerInterval = undefined;
         
@@ -26,9 +28,10 @@ class Coordinator {
     }   
 
     start() {
-        if (this.pendingJobs.length > 0) {
-            this.startActorRunner();
-        }
+        this.started = true;
+        
+        this.startActorRunner();
+        
         return this;
     }
 
@@ -52,10 +55,14 @@ class Coordinator {
     stop() {
         this.stopJobRunner();
         this.stopActorRunner();
+        
+        this.started = false;
+        
+        return this;
     }
 
     stopJobRunner() {
-        if (this.jobRunnerInterval !== undefined) {
+        if (this.started && this.jobRunnerInterval !== undefined) {
             this.logger("Stopping the job runner");            
             clearInterval(this.jobRunnerInterval);
             this.jobRunnerInterval = undefined;
@@ -63,7 +70,7 @@ class Coordinator {
     }
 
     stopActorRunner() {
-        if (this.actorRunnerInterval !== undefined) {
+        if (this.started && this.actorRunnerInterval !== undefined) {
             this.logger("Stopping the actor runner");            
             clearInterval(this.actorRunnerInterval);
             this.actorRunnerInterval = undefined;
@@ -110,9 +117,8 @@ class Coordinator {
 
     disposeActor(identifier) {
         if (this.hasActor(identifier)) {
-            this.deactivateActor(id);
-            this.actor(identifier).unbind();
-            this.universe.delete(id);            
+            this.actor(identifier).unbind();            
+            this.universe.delete(identifier);            
         }
     }
 

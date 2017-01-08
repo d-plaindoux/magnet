@@ -7,7 +7,7 @@
  */
 
 import Actor from "./actor";
-import localActor from "./local_actor";
+import boundActor from "./bound_actor";
 
 class UnboundActor extends Actor {
     
@@ -24,7 +24,7 @@ class UnboundActor extends Actor {
     }
     
     bind(model) {
-        var anActor = localActor(this.coordinator, this.identifier, model);
+        var anActor = boundActor(this.coordinator, this.identifier, model);
         this.coordinator.registerActor(anActor);
         
         if (model.boundAsActor) {
@@ -32,7 +32,11 @@ class UnboundActor extends Actor {
         }
 
         return anActor;
-    }    
+    } 
+    
+    unbind() {
+        // Nothing to do
+    }
 }
 
 function unboundActor(coordinator, identifier) {

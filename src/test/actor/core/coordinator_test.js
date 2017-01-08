@@ -78,12 +78,46 @@ export default  {
     const aCoordinator = coordinator(),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    aCoordinator.actor('test').bind(new Test0()),
+    aCoordinator.actor('test').bind(new Test0());
     aCoordinator.askNow('test', request("getValue",[]), aResponse);
         
     test.equal(value, 1, 'should call immediately an test Actor getValue.');      
         
     test.done();
+  },
+        
+  'coordinator cannot ask immediately a disposed unbound actor': function(test) {
+    test.expect(1);    
+      
+    var value = 0;
+      
+    const aCoordinator = coordinator(),
+          aResponse = response(v => null, v => value = v, _ => null);
+      
+    aCoordinator.actor('test');
+    aCoordinator.disposeActor('test');
+      
+    aCoordinator.askNow('test', request("getValue",[]), aResponse);
+       
+    test.deepEqual(value, new EvalError("Actor not found"), 'should not call a disposed unbound Actor.');      
+    test.done();        
+  },
+        
+  'coordinator cannot ask immediately a disposed bound actor': function(test) {
+    test.expect(1);    
+      
+    var value = 0;
+      
+    const aCoordinator = coordinator(),
+          aResponse = response(v => null, v => value = v, _ => null);
+      
+    aCoordinator.actor('test').bind(new Test0());
+    aCoordinator.disposeActor('test');
+      
+    aCoordinator.askNow('test', request("getValue",[]), aResponse);
+       
+    test.deepEqual(value, new EvalError("Actor not found"), 'should not call a disposed bound Actor.');      
+    test.done();        
   },
         
   'coordinator cannot ask immediately an inexisting actor': function(test) {
@@ -105,10 +139,10 @@ export default  {
       
     var value = 0;
       
-    const aCoordinator = coordinator(() => null),
+    const aCoordinator = coordinator(() => null).start(),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    aCoordinator.actor('test').bind(new Test0()),    
+    aCoordinator.actor('test').bind(new Test0()); 
     aCoordinator.ask('test', request("getValue",[]), aResponse);
        
     setTimeout(() => {
@@ -122,7 +156,7 @@ export default  {
       
     var value = 0;
       
-    const aCoordinator = coordinator(() => null),
+    const aCoordinator = coordinator(() => null).start(),
           aResponse = response(v => null, v => value = v, _ => null);
       
     aCoordinator.ask('test', request("getValue",[]), aResponse);
