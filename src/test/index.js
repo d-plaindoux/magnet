@@ -11,9 +11,10 @@ import objectsTest from './utils/objects_test';
 import responseTest from './actor/message/response_test';
 import requestTest from './actor/message/request_test';
 
-import coordinatorTest from './actor/core/coordinator_test'
 import localActorTest from './actor/core/local_actor_test'
 import unboundActorTest from './actor/core/unbound_actor_test'
+
+import coordinatorTest from './actor/core/coordinator_test'
 
 export {
     objectsTest,        
@@ -21,8 +22,9 @@ export {
     responseTest, 
     requestTest,
     
-    coordinatorTest,
     localActorTest,
-    unboundActorTest
+    unboundActorTest,
+        
+    coordinatorTest
         
 }

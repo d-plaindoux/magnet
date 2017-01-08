@@ -86,6 +86,23 @@ export default  {
     test.done();
   },
 
+  'coordinator can ask an existing actor': function(test) {
+    test.expect(1);    
+      
+    var value = 0;
+      
+    const aCoordinator = coordinator(),
+          aResponse = response(v => value = v, _ => null, _ => null);
+      
+    aCoordinator.actor('test').bind(new Test0()),    
+    aCoordinator.ask('test', request("getValue",[]), aResponse);
+       
+    setTimeout(() => {
+            test.equal(value, 1, 'should call an test Actor getValue.');              
+            test.done();        
+    }, 500);
+  },
+
 }
     
     

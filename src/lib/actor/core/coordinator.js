@@ -10,9 +10,9 @@ import unboundActor from "./unbound_actor";
 
 class Coordinator {
     
-    // :: unit -> Coordinator
-    constructor() {
-        this.universe = {};
+    // :: Logger? -> Coordinator
+    constructor(logger) {
+        this.universe = new Map();
         
         this.pendingJobs = [];
         
@@ -22,9 +22,7 @@ class Coordinator {
         this.jobRunnerInterval = undefined;
         this.actorRunnerInterval = undefined;
         
-        this.logger = function () {
-            // Do nothing
-        };
+        this.logger = logger || (message => console.log(new Date() + " :: " + message));
     }   
 
     start() {
@@ -35,22 +33,20 @@ class Coordinator {
     }
     
     startJobRunner() {
-        const self = this;
-        
         if (this.jobRunnerInterval === undefined) {
+            this.logger("Starting the job runner");
             this.jobRunnerInterval = setInterval(
-                () => self.jobRunner(), 
+                () => this.jobRunner(), 
                 this.intervalJobs
             );
         }
     }
 
     startActorRunner() {
-        const self = this;
-        
         if (this.actorRunnerInterval === undefined) {
+            this.logger("Starting the actor runner");            
             this.actorRunnerInterval = setInterval(
-                () => self.actorRunner(), 
+                () => this.actorRunner(),
                 this.intervalActors
             );
         }
@@ -63,6 +59,7 @@ class Coordinator {
 
     stopJobRunner() {
         if (this.jobRunnerInterval !== undefined) {
+            this.logger("Stopping the job runner");            
             clearInterval(this.jobRunnerInterval);
             this.jobRunnerInterval = undefined;
         }
@@ -70,6 +67,7 @@ class Coordinator {
 
     stopActorRunner() {
         if (this.actorRunnerInterval !== undefined) {
+            this.logger("Stopping the actor runner");            
             clearInterval(this.actorRunnerInterval);
             this.actorRunnerInterval = undefined;
         }
@@ -96,8 +94,8 @@ class Coordinator {
     actorRunner() {
         const self = this;
 
-        this.universe.forEach(function (actor) {
-            if (actor.pendingJobs.length !== 0) {
+        this.universe.forEach(actor => {
+            if (actor.pendingJobs.length > 0) {
                 self.pendingJobs.push(actor.pendingJobs.shift());
             }
         });
@@ -114,14 +112,14 @@ class Coordinator {
     //
 
     registerActor(anActor) {
-        this.universe[anActor.getIdentifier()] = anActor;
+        this.universe.set(anActor.getIdentifier(), anActor);
     }
 
     disposeActor(identifier) {
         if (this.hasActor(identifier)) {
             this.deactivateActor(id);
             this.actor(identifier).unbind();
-            delete this.universe[id];            
+            this.universe.delete(id);            
         }
     }
 
@@ -130,11 +128,11 @@ class Coordinator {
     //
 
     hasActor(identifier) {
-        return this.universe.hasOwnProperty(identifier);
+        return this.universe.has(identifier);
     }
 
     actor(identifier) {
-        var anActor = this.universe[identifier];
+        var anActor = this.universe.get(identifier);
 
         if (!anActor) {
             anActor = unboundActor(this, identifier);
@@ -151,7 +149,6 @@ class Coordinator {
     ask(identifier, request, response) {
         if (this.hasActor(identifier)) {
             this.actor(identifier).ask(request, response);
-            this.startActorRunner();
         } else {
             if (response) {
                 response.failure(new EvalError("Actor not found"));
@@ -180,8 +177,8 @@ class Coordinator {
 }
 
 // :: unit -> Coordinator throws ReferenceError
-function coordinator() {
-    return new Coordinator();
+function coordinator(logger) {
+    return new Coordinator(logger);
 }
 
 export default coordinator;

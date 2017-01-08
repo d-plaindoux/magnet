@@ -22,46 +22,14 @@ class /* abstract */ Actor {
     getIdentifier() {
         return this.identifier;
     }
-
-    /* abstract */ isBound() {
-        throw new EvalError("Not Implemented");
-    }
     
     ask(request, response) {
         var self = this;
         
-        this.pendingJobs.push(function () {
-            self.coordinator.askNow(self.getIdentifier(), request, response);
-        });
+        this.pendingJobs.push(() => self.coordinator.askNow(self.getIdentifier(), request, response));
         
         this.coordinator.startActorRunner();
     }
-
-    /* abstract */ askNow(request, response) {
-        throw new EvalError("Not Implemented");
-    }
-        
-    //
-    // Management corner ...
-    //
-
-    bind(model) {
-        var anActor = localActor(this.identifier, this.coordinator, model);
-        this.coordinator.registerActor(anActor);
-        
-        if (model.boundAsActor) {
-            model.boundAsActor();
-        }
-
-        return anActor;
-    }    
-
-    unbind() {
-        if (model.unboundAsActor) {
-            model.unboundAsActor();
-        }        
-    }
-
 }
 
 export default Actor;
