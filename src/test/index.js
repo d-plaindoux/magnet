@@ -11,6 +11,7 @@ import objectsTest from './utils/objects_test';
 import responseTest from './actor/message/response_test';
 import requestTest from './actor/message/request_test';
 
+import actorTest from './actor/core/actor_test'
 import boundActorTest from './actor/core/bound_actor_test'
 import unboundActorTest from './actor/core/unbound_actor_test'
 
@@ -22,6 +23,7 @@ export {
     responseTest, 
     requestTest,
     
+    actorTest,
     boundActorTest,
     unboundActorTest,
         

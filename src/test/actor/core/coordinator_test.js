@@ -125,7 +125,7 @@ export default  {
       
     var value = 0;
       
-    const aCoordinator = coordinator(() => null),
+    const aCoordinator = coordinator(),
           aResponse = response(v => null, v => value = v, _ => null);
       
     aCoordinator.askNow('test', request("getValue",[]), aResponse);
@@ -139,15 +139,53 @@ export default  {
       
     var value = 0;
       
-    const aCoordinator = coordinator(() => null).start(),
+    const aCoordinator = coordinator().start(),
           aResponse = response(v => value = v, _ => null, _ => null);
       
     aCoordinator.actor('test').bind(new Test0()); 
     aCoordinator.ask('test', request("getValue",[]), aResponse);
        
     setTimeout(() => {
-            test.equal(value, 1, 'should call an test Actor getValue.');              
-            test.done();        
+        test.equal(value, 1, 'should call a test Actor getValue.');              
+        test.done();        
+    }, 500);
+  },   
+    
+  'coordinator can ask an existing actor before starting coordinator': function(test) {
+    test.expect(1);    
+      
+    var value = 0;
+      
+    const aCoordinator = coordinator(),
+          aResponse = response(v => value = v, _ => null, _ => null);
+      
+    aCoordinator.actor('test').bind(new Test0()); 
+    aCoordinator.ask('test', request("getValue",[]), aResponse);
+      
+    aCoordinator.start();
+       
+    setTimeout(() => {
+        test.equal(value, 1, 'should call a test Actor getValue.');              
+        test.done();        
+    }, 500);
+  },
+    
+  'coordinator can ask an existing actor before starting coordinator': function(test) {
+    test.expect(1);    
+      
+    var value = 0;
+      
+    const aCoordinator = coordinator().start(),
+          aResponse = response(v => value = v, _ => null, _ => null);
+      
+    aCoordinator.actor('test').bind(new Test0());   
+    aCoordinator.stop();
+      
+    aCoordinator.ask('test', request("getValue",[]), aResponse);
+       
+    setTimeout(() => {
+        test.equal(value, 0, 'should not call a test Actor getValue when coordinator is not running.');              
+        test.done();        
     }, 500);
   },
     
@@ -156,14 +194,14 @@ export default  {
       
     var value = 0;
       
-    const aCoordinator = coordinator(() => null).start(),
+    const aCoordinator = coordinator().start(),
           aResponse = response(v => null, v => value = v, _ => null);
       
     aCoordinator.ask('test', request("getValue",[]), aResponse);
        
     setTimeout(() => {
-            test.deepEqual(value, new EvalError("Actor not found"), 'should not call an Actor unknwon.');      
-            test.done();        
+        test.deepEqual(value, new EvalError("Actor not found"), 'should not call an Actor unknwon.');      
+        test.done();        
     }, 500);
   },
 

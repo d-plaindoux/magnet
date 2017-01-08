@@ -30,6 +30,7 @@ class Coordinator {
     start() {
         this.started = true;
         
+        this.startJobRunner();
         this.startActorRunner();
         
         return this;
@@ -41,39 +42,41 @@ class Coordinator {
     }
     
     startJobRunner() {
-        if (this.jobRunnerInterval === undefined) {
+        if (this.started && this.jobRunnerInterval === undefined) {
             this.jobRunnerInterval = this.startRunner("job", () => this.jobRunner(), this.intervalJobs);
         }
     }
 
     startActorRunner() {
-        if (this.actorRunnerInterval === undefined) {
+        if (this.started && this.actorRunnerInterval === undefined) {
             this.actorRunnerInterval = this.startRunner("actor", () => this.actorRunner(), this.intervalActors);
         }
     }
 
     stop() {
-        this.stopJobRunner();
         this.stopActorRunner();
+        this.stopJobRunner();
         
         this.started = false;
         
         return this;
     }
 
+    stopRunner(name, runner) {
+        this.logger("Stopping the " + name + " runner");            
+        clearInterval(runner);
+        return undefined;
+    }
+
     stopJobRunner() {
-        if (this.started && this.jobRunnerInterval !== undefined) {
-            this.logger("Stopping the job runner");            
-            clearInterval(this.jobRunnerInterval);
-            this.jobRunnerInterval = undefined;
+        if (this.started && this.jobRunnerInterval !== undefined) {            
+            this.jobRunnerInterval = this.stopRunner("job", this.jobRunnerInterval);
         }
     }
 
     stopActorRunner() {
-        if (this.started && this.actorRunnerInterval !== undefined) {
-            this.logger("Stopping the actor runner");            
-            clearInterval(this.actorRunnerInterval);
-            this.actorRunnerInterval = undefined;
+        if (this.started && this.actorRunnerInterval !== undefined) {            
+            this.actorRunnerInterval = this.stopRunner("actor", this.actorRunnerInterval);
         }
     }
     

@@ -49,6 +49,16 @@ export default  {
     test.done();
   },
     
+  'bound actor cannot be bound twice': function(test) {
+    test.expect(1);    
+      
+    const anActor = boundActor(coordinator(), "test", new Test0());
+
+    test.throws(() => anActor.bind(1), EvalError, 'should bind twice an Actor.');      
+      
+    test.done();
+  },
+    
   'bound actor is bound': function(test) {
     test.expect(1);    
       
