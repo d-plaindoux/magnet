@@ -10,7 +10,7 @@
 import Actor from "./actor";
 import objects from "../../utils/objects";
 
-class LocalActor extends Actor {
+class BoundActor extends Actor {
     
     constructor(coordinator, identifier, model) {
         super(coordinator, identifier);       
@@ -56,13 +56,13 @@ class LocalActor extends Actor {
     }
 }
 
-function localActor(coordinator, identifier, model) {
+function boundActor(coordinator, identifier, model) {
     objects.requireNonNull(coordinator, "coordinator");
     objects.requireNonNull(identifier, "identifier");
     objects.requireNonNull(model, "model");
     
-    return new LocalActor(coordinator, identifier, model);
+    return new BoundActor(coordinator, identifier, model);
 }
 
-export default localActor;
+export default boundActor;
  
