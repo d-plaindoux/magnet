@@ -3,6 +3,11 @@
 [![Build Status](https://travis-ci.org/d-plaindoux/magnet.svg?branch=master)](https://travis-ci.org/d-plaindoux/magnet)
 [![Coverage Status](https://coveralls.io/repos/github/d-plaindoux/magnet/badge.svg?branch=master)](https://coveralls.io/github/d-plaindoux/magnet?branch=master)
 
+## Introduction
+
+Magnet propose a simply library dedicated to actor execution enabling 
+actor registration and binding thanks to a coordinator component.
+
 ## License
 
 Copyright (C)2017 D. Plaindoux.

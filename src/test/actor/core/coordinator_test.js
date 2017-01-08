@@ -236,7 +236,7 @@ export default  {
     }, 500);
   },
     
-  'coordinator can broadcasr an event to all actors': function(test) {
+  'coordinator can broadcast an event to all actors': function(test) {
     test.expect(2);    
       
     const aCoordinator = coordinator().start();
@@ -248,7 +248,7 @@ export default  {
        
     setTimeout(() => {
         test.equal(aCoordinator.actor('test1').model.value, 2, "Should set the test1 actor value");
-        test.equal(aCoordinator.actor('test2').model.value, 2, "Should set the test1 actor value");
+        test.equal(aCoordinator.actor('test2').model.value, 2, "Should set the test2 actor value");
         test.done();        
     }, 500);
   },
