@@ -154,6 +154,33 @@ export default  {
         test.done();        
     }, 500);
   },   
+
+  'coordinator can ask an existing actor with preserved ssequence': function(test) {
+    test.expect(2);    
+      
+    var value = 0;
+      
+    const aCoordinator = coordinator().start(),
+          aResponse = response(v => value = v, _ => null, _ => null);
+      
+    aCoordinator.actor('test').bind(new Test0()); 
+
+    aCoordinator.ask('test', request("getValue",[]), aResponse);
+       
+    setTimeout(() => {
+        test.equal(value, 1, 'should call a test Actor getValue.');              
+
+        aCoordinator.ask('test', request("setValue",[2]));
+        aCoordinator.ask('test', request("getValue",[]), aResponse);
+
+        setTimeout(() => {
+            test.equal(value, 2, 'should call a test Actor getValue after a set value.');              
+            test.done();        
+        }, 500);
+        
+    }, 500);
+    
+},   
     
   'coordinator can ask an existing actor before starting coordinator': function(test) {
     test.expect(1);    
