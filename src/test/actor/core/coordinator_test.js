@@ -85,13 +85,27 @@ export default  {
         
     test.done();
   },
+        
+  'coordinator cannot ask immediately an inexisting actor': function(test) {
+    test.expect(1);    
+      
+    var value = 0;
+      
+    const aCoordinator = coordinator(() => null),
+          aResponse = response(v => null, v => value = v, _ => null);
+      
+    aCoordinator.askNow('test', request("getValue",[]), aResponse);
+       
+    test.deepEqual(value, new EvalError("Actor not found"), 'should not call an Actor unknwon.');      
+    test.done();        
+  },
 
   'coordinator can ask an existing actor': function(test) {
     test.expect(1);    
       
     var value = 0;
       
-    const aCoordinator = coordinator(),
+    const aCoordinator = coordinator(() => null),
           aResponse = response(v => value = v, _ => null, _ => null);
       
     aCoordinator.actor('test').bind(new Test0()),    
@@ -99,6 +113,22 @@ export default  {
        
     setTimeout(() => {
             test.equal(value, 1, 'should call an test Actor getValue.');              
+            test.done();        
+    }, 500);
+  },
+    
+  'coordinator cannot ask an inexisting actor': function(test) {
+    test.expect(1);    
+      
+    var value = 0;
+      
+    const aCoordinator = coordinator(() => null),
+          aResponse = response(v => null, v => value = v, _ => null);
+      
+    aCoordinator.ask('test', request("getValue",[]), aResponse);
+       
+    setTimeout(() => {
+            test.deepEqual(value, new EvalError("Actor not found"), 'should not call an Actor unknwon.');      
             test.done();        
     }, 500);
   },

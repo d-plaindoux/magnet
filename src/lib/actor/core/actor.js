@@ -23,11 +23,10 @@ class /* abstract */ Actor {
         return this.identifier;
     }
     
-    ask(request, response) {
-        var self = this;
-        
-        this.pendingJobs.push(() => self.coordinator.askNow(self.getIdentifier(), request, response));
-        
+    ask(request, response) {    
+        this.pendingJobs.push(() => 
+            this.coordinator.askNow(this.getIdentifier(), request, response)
+        );        
         this.coordinator.startActorRunner();
     }
 }

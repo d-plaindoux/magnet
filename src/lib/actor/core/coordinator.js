@@ -31,24 +31,21 @@ class Coordinator {
         }
         return this;
     }
+
+    startRunner(name, callback, duration) {
+        this.logger("Starting the " + name + " runner");
+        return setInterval(callback, duration);
+    }
     
     startJobRunner() {
         if (this.jobRunnerInterval === undefined) {
-            this.logger("Starting the job runner");
-            this.jobRunnerInterval = setInterval(
-                () => this.jobRunner(), 
-                this.intervalJobs
-            );
+            this.jobRunnerInterval = this.startRunner("job", () => this.jobRunner(), this.intervalJobs);
         }
     }
 
     startActorRunner() {
         if (this.actorRunnerInterval === undefined) {
-            this.logger("Starting the actor runner");            
-            this.actorRunnerInterval = setInterval(
-                () => this.actorRunner(),
-                this.intervalActors
-            );
+            this.actorRunnerInterval = this.startRunner("actor", () => this.actorRunner(), this.intervalActors);
         }
     }
 
@@ -82,9 +79,7 @@ class Coordinator {
             try {
                 this.pendingJobs.shift()();
             } catch (e) {
-                if (this.logger) {
-                    this.logger(e);
-                }
+                this.logger(e);
             }
         } else {
             this.stopJobRunner();
@@ -92,11 +87,9 @@ class Coordinator {
     }
 
     actorRunner() {
-        const self = this;
-
         this.universe.forEach(actor => {
             if (actor.pendingJobs.length > 0) {
-                self.pendingJobs.push(actor.pendingJobs.shift());
+                this.pendingJobs.push(actor.pendingJobs.shift());
             }
         });
 
@@ -153,7 +146,7 @@ class Coordinator {
             if (response) {
                 response.failure(new EvalError("Actor not found"));
             } else {
-                throw new EvalError("Actor not found");                
+                this.logger("Actor " + request.getIdentifier() + " not found");
             }
         }
     }
@@ -165,7 +158,7 @@ class Coordinator {
             if (response) {
                 response.failure(new EvalError("Actor not found"));
             } else {
-                throw new EvalError("Actor not found");
+                this.logger("Actor " + request.getIdentifier() + " not found");
             }
         }
     }
