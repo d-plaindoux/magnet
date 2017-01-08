@@ -19,6 +19,10 @@ class Test0 {
     getValue() {
         return this.value;
     }
+    
+    setValue(value) {
+        this.value = value;
+    }
 }
 
 export default  {
@@ -201,6 +205,23 @@ export default  {
        
     setTimeout(() => {
         test.deepEqual(value, new EvalError("Actor not found"), 'should not call an Actor unknwon.');      
+        test.done();        
+    }, 500);
+  },
+    
+  'coordinator can broadcasr an event to all actors': function(test) {
+    test.expect(2);    
+      
+    const aCoordinator = coordinator().start();
+      
+    aCoordinator.actor('test1').bind(new Test0());   
+    aCoordinator.actor('test2').bind(new Test0());   
+      
+    aCoordinator.broadcast(request("setValue",[2]));
+       
+    setTimeout(() => {
+        test.equal(aCoordinator.actor('test1').model.value, 2, "Should set the test1 actor value");
+        test.equal(aCoordinator.actor('test2').model.value, 2, "Should set the test1 actor value");
         test.done();        
     }, 500);
   },

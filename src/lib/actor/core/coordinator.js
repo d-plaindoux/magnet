@@ -173,7 +173,7 @@ class Coordinator {
     }
 
     broadcast(request) {
-        this.universe.forEach(anActor => anActor(identifier).ask(request));
+        this.universe.forEach(anActor => anActor.ask(request));
     }
 
 }
