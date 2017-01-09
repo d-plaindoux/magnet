@@ -10,7 +10,7 @@ import unboundActor from "./unbound_actor";
 
 class Coordinator {
     
-    // :: Logger? -> Coordinator
+    // :: Logger -> Coordinator
     constructor(logger) {
         this.universe = new Map();
         
@@ -24,9 +24,10 @@ class Coordinator {
         this.jobRunnerInterval = undefined;
         this.actorRunnerInterval = undefined;
         
-        this.logger = logger || (message => console.log(new Date() + " :: " + message));
+        this.logger = logger;
     }   
 
+    // :: unit -> Coordinator
     start() {
         this.started = true;
         
@@ -36,23 +37,27 @@ class Coordinator {
         return this;
     }
 
+    // :: (string, unit -> unit, int) -> Coordinator
     startRunner(name, callback, duration) {
         this.logger("Starting the " + name + " runner");
         return setInterval(callback, duration);
     }
     
+    // :: unit -> unit
     startJobRunner() {
         if (this.started && this.jobRunnerInterval === undefined) {
             this.jobRunnerInterval = this.startRunner("job", () => this.jobRunner(), this.intervalJobs);
         }
     }
 
+    // :: unit -> unit
     startActorRunner() {
         if (this.started && this.actorRunnerInterval === undefined) {
             this.actorRunnerInterval = this.startRunner("actor", () => this.actorRunner(), this.intervalActors);
         }
     }
 
+    // :: unit -> Coordinator
     stop() {
         this.stopActorRunner();
         this.stopJobRunner();
@@ -62,18 +67,21 @@ class Coordinator {
         return this;
     }
 
+    // :: (string,runner) -> undefined
     stopRunner(name, runner) {
         this.logger("Stopping the " + name + " runner");            
         clearInterval(runner);
         return undefined;
     }
 
+    // :: unit -> unit
     stopJobRunner() {
         if (this.started && this.jobRunnerInterval !== undefined) {            
             this.jobRunnerInterval = this.stopRunner("job", this.jobRunnerInterval);
         }
     }
 
+    // :: unit -> unit
     stopActorRunner() {
         if (this.started && this.actorRunnerInterval !== undefined) {            
             this.actorRunnerInterval = this.stopRunner("actor", this.actorRunnerInterval);
@@ -84,6 +92,7 @@ class Coordinator {
     // Privates runners behaviors
     //
 
+    // :: unit -> unit
     jobRunner() {
         if (this.pendingJobs.length > 0) {
             try {
@@ -96,6 +105,7 @@ class Coordinator {
         }
     }
 
+    // :: unit -> unit
     actorRunner() {
         this.universe.forEach(actor => {
             if (actor.pendingJobs.length > 0) {
@@ -114,10 +124,12 @@ class Coordinator {
     // Actor (un)registration features
     //
 
+    // :: Actor -> unit
     registerActor(anActor) {
         this.universe.set(anActor.getIdentifier(), anActor);
     }
 
+    // :: string -> unit
     disposeActor(identifier) {
         if (this.hasActor(identifier)) {
             this.actor(identifier).unbind();            
@@ -129,10 +141,12 @@ class Coordinator {
     // Actor creation and deletion
     //
 
+    // :: string -> boolean
     hasActor(identifier) {
         return this.universe.has(identifier);
     }
 
+    // :: string -> Actor
     actor(identifier) {
         var anActor = this.universe.get(identifier);
 
@@ -148,6 +162,7 @@ class Coordinator {
     // ask and broadcast mechanisms
     //
 
+    // :: (string, Resquest, Response) -> unit
     ask(identifier, request, response) {
         if (this.hasActor(identifier)) {
             this.actor(identifier).ask(request, response);
@@ -160,6 +175,7 @@ class Coordinator {
         }
     }
 
+    // :: (string, Resquest, Response) -> unit
     askNow(identifier, request, response) {
         if (this.hasActor(identifier)) {
             this.actor(identifier).askNow(request, response);
@@ -172,15 +188,16 @@ class Coordinator {
         }
     }
 
+    // :: (Resquest) -> unit
     broadcast(request) {
         this.universe.forEach(anActor => anActor.ask(request));
     }
 
 }
 
-// :: unit -> Coordinator throws ReferenceError
+// :: Logger? -> Coordinator
 function coordinator(logger) {
-    return new Coordinator(logger);
+    return new Coordinator(logger || (message => console.log(new Date() + " :: " + message)));
 }
 
 export default coordinator;

@@ -9,6 +9,7 @@
 
 class /* abstract */ Actor {
     
+    // :: (Coordinator,String) -> Actor
     constructor(coordinator, identifier) {
         // Since new.target is not supported in uglify stage            
         if (this.constructor.name === 'Actor') { 
@@ -20,10 +21,12 @@ class /* abstract */ Actor {
         this.pendingJobs = [];        
     }
     
+    // :: unit -> string
     getIdentifier() {
         return this.identifier;
     }
     
+    // :: (Request,Response) -> unit
     ask(request, response) {    
         this.pendingJobs.push(() => 
             this.coordinator.askNow(this.getIdentifier(), request, response)

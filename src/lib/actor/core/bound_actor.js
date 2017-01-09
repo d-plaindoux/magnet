@@ -6,22 +6,25 @@
  * Licensed under the LGPL2 license.
  */
 
+import objects from "../../utils/objects";
 
 import Actor from "./actor";
-import objects from "../../utils/objects";
 
 class BoundActor extends Actor {
     
+    // :: (Coordinator,String,'a) -> BoundActor 'a
     constructor(coordinator, identifier, model) {
         super(coordinator, identifier);       
         
         this.model = model;
     }
     
+    // :: unit -> boolean
     isBound() {
         return true;
     }
     
+    // :: (Request,Response?) -> unit
     askNow(request, response) {
         try {
             if (this.model[request.name()]) {
@@ -39,16 +42,16 @@ class BoundActor extends Actor {
         } catch (error) {
             if (response) {
                 response.failure(error);
-            } else {
-                throw error;
             }
         }
     }
-             
+        
+    // :: 'a -> throws EvalError
     bind(model) {
         throw new EvalError("Actor already bound");
     }
 
+    // :: unit -> unit
     unbind() {
         if (this.model.unboundAsActor) {
             this.model.unboundAsActor();
@@ -56,6 +59,7 @@ class BoundActor extends Actor {
     }
 }
 
+// :: (Coordinator,String,'a) -> BoundActor 'a throws ReferenceError
 function boundActor(coordinator, identifier, model) {
     objects.requireNonNull(coordinator, "coordinator");
     objects.requireNonNull(identifier, "identifier");
