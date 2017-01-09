@@ -27,6 +27,5 @@ export {
     boundActorTest,
     unboundActorTest,
         
-    coordinatorTest
-        
+    coordinatorTest        
 }

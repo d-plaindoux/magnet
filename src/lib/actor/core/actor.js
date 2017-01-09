@@ -10,7 +10,8 @@
 class /* abstract */ Actor {
     
     constructor(coordinator, identifier) {
-        if (new.target === Actor) {
+        // Since new.target is not supported in uglify stage            
+        if (this.constructor.name === 'Actor') { 
             throw new TypeError("Abstract class");
         }
         

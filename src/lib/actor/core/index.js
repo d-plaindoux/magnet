@@ -6,11 +6,6 @@
  * Licensed under the LGPL2 license.
  */
 
-import message from "./actor/message";
-import actor from "./actor/core";
+import coordinator from "./coordinator";
 
-export default {
-    message, 
-    actor
-}
-
+export default coordinator;
