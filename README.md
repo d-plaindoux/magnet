@@ -5,7 +5,7 @@
 
 ## Introduction
 
-Magnet propose a simply library dedicated to actor execution enabling 
+Magnet is a simple library dedicated to actor execution enabling 
 actor registration and binding thanks to a coordinator component.
 
 ## License
