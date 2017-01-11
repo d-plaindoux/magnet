@@ -72,10 +72,10 @@ export default  {
     
     var value = 0;
       
-    const aLocalActor = boundActor(coordinator(), "test", new Test0()),
+    const aBoundActor = boundActor(coordinator(), "test", new Test0()),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    aLocalActor.askNow(request("getValue",[]), aResponse);
+    aBoundActor.askNow(request("getValue",[]), aResponse);
       
     test.equal(value, 1, 'should call immediately a bound Actor getValue.');      
       
@@ -87,11 +87,11 @@ export default  {
     
     var value = 0;
       
-    const aLocalActor = boundActor(coordinator(), "test", new Test0()),
+    const aBoundActor = boundActor(coordinator(), "test", new Test0()),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    aLocalActor.askNow(request("setValue",[2]));
-    aLocalActor.askNow(request("getValue",[]), aResponse);
+    aBoundActor.askNow(request("setValue",[2]));
+    aBoundActor.askNow(request("getValue",[]), aResponse);
       
     test.equal(value, 2, 'should call immediately a bound Actor getValue.');      
       
@@ -103,10 +103,10 @@ export default  {
     
     var value = 0;
       
-    const aLocalActor = boundActor(coordinator(), "test", new Test1()),
+    const aBoundActor = boundActor(coordinator(), "test", new Test1()),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    aLocalActor.askNow(request("testMethod",[]), aResponse);
+    aBoundActor.askNow(request("testMethod",[]), aResponse);
       
     test.equal(value, "testMethod", 'should call immediately a bound Actor unkown method.');      
       
@@ -127,6 +127,24 @@ export default  {
       
     test.done();
   },
+    
+    
+  'bound actor with function': function(test) {
+    test.expect(1);    
+    
+    var value = 0;
+      
+    const aFunction = (request, response) => response.success(request),
+          aBoundActor = boundActor(coordinator(), "test", aFunction),
+          aResponse = response(v => value = v, _ => null, _ => null);
+      
+    aBoundActor.askNow(2, aResponse);
+      
+    test.equal(value, 2, 'should call immediately a bound function.');      
+      
+    test.done();
+  },
+
 }
     
     

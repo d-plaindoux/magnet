@@ -18,13 +18,14 @@ class /* abstract */ Actor {
         
         this.identifier = identifier;
         this.coordinator = coordinator;
+        
         this.pendingJobs = [];        
     }
     
     // :: unit -> string
     getIdentifier() {
         return this.identifier;
-    }
+    }        
     
     // :: (Request,Response) -> unit
     ask(request, response) {    

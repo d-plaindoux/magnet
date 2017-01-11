@@ -36,10 +36,8 @@ class Response {
 // :: ('a -> unit ) -> ('b -> unit ) -> (unit  -> unit ) -> Response 'a 'b throws ReferenceError
 function response(success, failure, timeout) {
     objects.requireNonNull(success, "success");
-    objects.requireNonNull(failure, "failure");
-    objects.requireNonNull(timeout, "timeout");
     
-    return new Response(success, failure, timeout);        
+    return new Response(success, failure || (_ => null), timeout || (_ => null));        
 }
 
-export default response
+export default response;

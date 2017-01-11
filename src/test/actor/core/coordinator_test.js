@@ -8,6 +8,8 @@
 
 import coordinator from '../../../lib/actor/core/coordinator';
 
+import reflexiveModel from '../../../lib/actor/foundation/reflexive_model';
+
 import request from '../../../lib/actor/message/request';
 import response from '../../../lib/actor/message/response';
 
@@ -82,7 +84,7 @@ export default  {
     const aCoordinator = coordinator(),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    aCoordinator.actor('test').bind(new Test0());
+    aCoordinator.actor('test').bind(reflexiveModel(new Test0()));
     aCoordinator.askNow('test', request("getValue",[]), aResponse);
         
     test.equal(value, 1, 'should call immediately an test Actor getValue.');      
@@ -146,7 +148,7 @@ export default  {
     const aCoordinator = coordinator().start(),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    aCoordinator.actor('test').bind(new Test0()); 
+    aCoordinator.actor('test').bind(reflexiveModel(new Test0())); 
     aCoordinator.ask('test', request("getValue",[]), aResponse);
        
     setTimeout(() => {
@@ -163,7 +165,7 @@ export default  {
     const aCoordinator = coordinator().start(),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    aCoordinator.actor('test').bind(new Test0()); 
+    aCoordinator.actor('test').bind(reflexiveModel(new Test0())); 
 
     aCoordinator.ask('test', request("getValue",[]), aResponse);
        
@@ -190,7 +192,7 @@ export default  {
     const aCoordinator = coordinator(),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    aCoordinator.actor('test').bind(new Test0()); 
+    aCoordinator.actor('test').bind(reflexiveModel(new Test0())); 
     aCoordinator.ask('test', request("getValue",[]), aResponse);
       
     aCoordinator.start();
@@ -209,7 +211,7 @@ export default  {
     const aCoordinator = coordinator().start(),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    aCoordinator.actor('test').bind(new Test0());   
+    aCoordinator.actor('test').bind(reflexiveModel(new Test0()));   
     aCoordinator.stop();
       
     aCoordinator.ask('test', request("getValue",[]), aResponse);
@@ -241,14 +243,14 @@ export default  {
       
     const aCoordinator = coordinator().start();
       
-    aCoordinator.actor('test1').bind(new Test0());   
-    aCoordinator.actor('test2').bind(new Test0());   
+    aCoordinator.actor('test1').bind(reflexiveModel(new Test0()));   
+    aCoordinator.actor('test2').bind(reflexiveModel(new Test0()));   
       
     aCoordinator.broadcast(request("setValue",[2]));
        
     setTimeout(() => {
-        test.equal(aCoordinator.actor('test1').model.value, 2, "Should set the test1 actor value");
-        test.equal(aCoordinator.actor('test2').model.value, 2, "Should set the test2 actor value");
+        test.equal(aCoordinator.actor('test1').model.model.getValue(), 2, "Should set the test1 actor value");
+        test.equal(aCoordinator.actor('test2').model.model.getValue(), 2, "Should set the test2 actor value");
         test.done();        
     }, 500);
   },

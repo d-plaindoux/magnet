@@ -5,8 +5,54 @@
 
 ## Introduction
 
-Magnet is a simple library dedicated to actor execution enabling 
-actor registration and binding thanks to a coordinator component.
+Magnet is a simple library dedicated to actor execution enabling actor 
+registration and binding thanks to a coordinator component.
+
+### Hello World!
+
+An actor has the capability to communicate with a model. Such model can
+be a simple class of a function.
+
+#### Functional style
+
+```javascriot
+function hello(request, response) {
+    response.success("Hello " + request + "!");
+}
+```
+
+Then such function can simply managed by an actor and hosted by a given 
+coordinator.
+
+```javascriot
+const aCoordinator = coordinator(),
+      aResponse    = response(v => console.log(v))
+
+aCoordinator.actor("hello").bind(hello);
+aCoordinator.ask("World",aResponse);  
+// prints "Hello World!" on the console
+
+```
+
+#### The Object-Oriented style
+
+```javascriot
+class Hello {
+    receiveRequest(request, response) {
+        response.success("Hello " + request + "!");
+    }
+}
+```
+
+```javascriot
+const aCoordinator = coordinator(),
+      aResponse    = response(v => console.log(v))
+
+aCoordinator.actor("hello").bind(new Hello());
+aCoordinator.ask("World",aResponse);  
+// prints "Hello World!" on the console
+
+```
 
 ## License
 

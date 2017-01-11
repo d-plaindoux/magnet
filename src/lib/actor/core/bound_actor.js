@@ -8,6 +8,9 @@
 
 import objects from "../../utils/objects";
 
+import functionalModel from "../foundation/functional_model";
+import reflexiveModel from "../foundation/reflexive_model";
+
 import Actor from "./actor";
 
 class BoundActor extends Actor {
@@ -16,7 +19,11 @@ class BoundActor extends Actor {
     constructor(coordinator, identifier, model) {
         super(coordinator, identifier);       
         
-        this.model = model;
+        this.model = this.handleModel(model);
+        
+        if (this.model.boundAsActor) {
+            this.model.boundAsActor(this.coordinator, this);
+        }
     }
     
     // :: unit -> boolean
@@ -27,18 +34,7 @@ class BoundActor extends Actor {
     // :: (Request,Response?) -> unit
     askNow(request, response) {
         try {
-            if (this.model[request.name()]) {
-                const method = this.model[request.name()];                
-                const result = method.apply(this.model, request.parameters());
-            
-                if (response) {
-                    response.success(result);
-                }
-            } else if (this.model.receiveRequest) {
-                this.model.receiveRequest(request, response);
-            } else {                
-                throw new EvalError("Actor behavior not found");
-            }
+            this.model.receiveRequest(request, response);
         } catch (error) {
             if (response) {
                 response.failure(error);
@@ -57,6 +53,20 @@ class BoundActor extends Actor {
             this.model.unboundAsActor();
         }
     }
+       
+    // :: Any -> Model
+    handleModel(model) {
+        if (typeof model === "function") {
+            return functionalModel(model);
+        }
+        
+        if (!model.receiveRequest) {
+            return reflexiveModel(model);
+        }
+        
+        return model;
+    }
+
 }
 
 // :: (Coordinator,String,'a) -> BoundActor 'a throws ReferenceError

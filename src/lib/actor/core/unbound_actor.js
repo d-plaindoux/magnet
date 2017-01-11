@@ -34,10 +34,6 @@ class UnboundActor extends Actor {
         
         this.coordinator.registerActor(anActor);
         
-        if (model.boundAsActor) {
-            model.boundAsActor();
-        }
-
         return anActor;
     } 
     

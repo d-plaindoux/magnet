@@ -35,4 +35,4 @@ function request(name, parameters) {
     return new Request(name, parameters);
 }
 
-export default request
+export default request;
