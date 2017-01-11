@@ -29,7 +29,7 @@ const aCoordinator = coordinator(),
       aResponse    = response(v => console.log(v))
 
 aCoordinator.actor("hello").bind(hello);
-aCoordinator.ask("hello", "World",aResponse);  
+aCoordinator.ask("hello", "World", aResponse);  
 // prints "Hello World!" on the console
 
 ```
@@ -49,7 +49,7 @@ const aCoordinator = coordinator(),
       aResponse    = response(v => console.log(v))
 
 aCoordinator.actor("hello").bind(new Hello());
-aCoordinator.ask("hello", "World",aResponse);  
+aCoordinator.ask("hello", "World", aResponse);  
 // prints "Hello World!" on the console
 
 ```
