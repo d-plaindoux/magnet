@@ -13,7 +13,7 @@ registration and binding thanks to a coordinator component.
 An actor has the capability to communicate with a model. Such model can
 be a simple class of a function.
 
-#### Functional style
+#### The Functional style
 
 ```javascriot
 function hello(request, response) {
