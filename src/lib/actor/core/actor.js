@@ -19,7 +19,7 @@ class /* abstract */ Actor {
         this.identifier = identifier;
         this.coordinator = coordinator;
         
-        this.pendingJobs = [];        
+        this.mailbox = [];        
     }
     
     // :: unit -> string
@@ -29,10 +29,17 @@ class /* abstract */ Actor {
     
     // :: (Request,Response) -> unit
     ask(request, response) {    
-        this.pendingJobs.push(() => 
-            this.coordinator.askNow(this.getIdentifier(), request, response)
-        );        
+        this.mailbox.push({request:request, response:response});
         this.coordinator.startActorRunner();
+    }
+    
+    // :: unit -> (Request,Response)?
+    nextMessage() {
+        if (this.mailbox.length > 0) {
+            return this.mailbox.shift();
+        }
+        
+        return undefined;
     }
 }
 

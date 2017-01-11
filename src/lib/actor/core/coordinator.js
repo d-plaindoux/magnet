@@ -108,8 +108,11 @@ class Coordinator {
     // :: unit -> unit
     actorRunner() {
         this.universe.forEach(actor => {
-            if (actor.pendingJobs.length > 0) {
-                this.pendingJobs.push(actor.pendingJobs.shift());
+            const message = actor.nextMessage();
+            if (message) {
+                this.pendingJobs.push(() =>
+                    actor.askNow(message.request, message.response)
+                );
             }
         });
 
