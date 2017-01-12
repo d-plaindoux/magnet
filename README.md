@@ -12,7 +12,7 @@ based on actor management thanks to a coordinator component.
 ### Hello World!
 
 An actor has the capability to communicate with a model. Such model can
-be a simple class of a function.
+be a simple class or a function.
 
 #### The Functional style
 
