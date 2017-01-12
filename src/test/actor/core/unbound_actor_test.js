@@ -9,7 +9,9 @@
 import coordinator from '../../../lib/actor/core/coordinator';
 import unboundActor from '../../../lib/actor/core/unbound_actor';
 
-import request from '../../../lib/actor/message/request';
+import reflexive from '../../../lib/actor/foundation/reflexive_model';
+import request from '../../../lib/actor/foundation/reflexive_request';
+
 import response from '../../../lib/actor/message/response';
 
 class Test0 {

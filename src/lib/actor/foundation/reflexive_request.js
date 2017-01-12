@@ -8,7 +8,7 @@
 
 import objects from "../../utils/objects";
 
-class Request {
+class ReflexiveRequest {
     
     // :: (string,[Any]) -> Request
     constructor(name, parameters) {
@@ -28,11 +28,11 @@ class Request {
 }
 
 // :: (string,[Any]) -> Request throws ReferenceError 
-function request(name, parameters) {
+function reflexiveRequest(name, parameters) {
     objects.requireNonNull(name, "name");
     objects.requireNonNull(parameters, "parameters")
 
-    return new Request(name, parameters);
+    return new ReflexiveRequest(name, parameters);
 }
 
-export default request;
+export default reflexiveRequest;

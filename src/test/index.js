@@ -9,7 +9,8 @@
 import objectsTest from './utils/objects_test';
 
 import responseTest from './actor/message/response_test';
-import requestTest from './actor/message/request_test';
+
+import requestTest from './actor/core/reflexive_request_test';
 
 import actorTest from './actor/core/actor_test'
 import boundActorTest from './actor/core/bound_actor_test'
@@ -20,7 +21,8 @@ import coordinatorTest from './actor/core/coordinator_test'
 export {
     objectsTest,        
     
-    responseTest, 
+    responseTest,         
+
     requestTest,
     
     actorTest,

@@ -60,10 +60,6 @@ class BoundActor extends Actor {
             return functionalModel(model);
         }
         
-        if (!model.receiveRequest) {
-            return reflexiveModel(model);
-        }
-        
         return model;
     }
 

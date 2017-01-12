@@ -9,7 +9,9 @@
 import coordinator from '../../../lib/actor/core/coordinator';
 import boundActor from '../../../lib/actor/core/bound_actor';
 
-import request from '../../../lib/actor/message/request';
+import reflexive from '../../../lib/actor/foundation/reflexive_model';
+import request from '../../../lib/actor/foundation/reflexive_request';
+
 import response from '../../../lib/actor/message/response';
 
 class Test0 {
@@ -72,7 +74,7 @@ export default  {
     
     var value = 0;
       
-    const aBoundActor = boundActor(coordinator(), "test", new Test0()),
+    const aBoundActor = boundActor(coordinator(), "test", reflexive(new Test0())),
           aResponse = response(v => value = v, _ => null, _ => null);
       
     aBoundActor.askNow(request("getValue",[]), aResponse);
@@ -87,7 +89,7 @@ export default  {
     
     var value = 0;
       
-    const aBoundActor = boundActor(coordinator(), "test", new Test0()),
+    const aBoundActor = boundActor(coordinator(), "test", reflexive(new Test0())),
           aResponse = response(v => value = v, _ => null, _ => null);
       
     aBoundActor.askNow(request("setValue",[2]));
@@ -118,7 +120,7 @@ export default  {
     
     var value = 0;
       
-    const aLocalActor = boundActor(coordinator(), "test", new Test0()),
+    const aLocalActor = boundActor(coordinator(), "test", reflexive(new Test0())),
           aResponse = response(v => null, v => value = v, _ => null);
       
     aLocalActor.askNow(request("testMethod",[]), aResponse);
