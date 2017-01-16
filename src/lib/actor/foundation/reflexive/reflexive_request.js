@@ -6,11 +6,11 @@
  * Licensed under the LGPL2 license.
  */
 
-import objects from "../../utils/objects";
+import objects from "../../../utils/objects";
 
 class ReflexiveRequest {
     
-    // :: (string,[Any]) -> Request
+    // :: (string,[Any]) -> ReflexiveRequest
     constructor(name, parameters) {
         this._name = name;
         this._parameters = parameters;
@@ -27,7 +27,7 @@ class ReflexiveRequest {
     }
 }
 
-// :: (string,[Any]) -> Request throws ReferenceError 
+// :: (string,[Any]) -> ReflexiveRequest throws ReferenceError 
 function reflexiveRequest(name, parameters) {
     objects.requireNonNull(name, "name");
     objects.requireNonNull(parameters, "parameters")

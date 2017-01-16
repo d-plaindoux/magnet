@@ -8,8 +8,7 @@
 
 import objects from "../../utils/objects";
 
-import functionalModel from "../foundation/functional_model";
-import reflexiveModel from "../foundation/reflexive_model";
+import functionalModel from "../foundation/misc/functional_model";
 
 import Actor from "./actor";
 
@@ -60,7 +59,11 @@ class BoundActor extends Actor {
             return functionalModel(model);
         }
         
-        return model;
+        if (model.receiveRequest) {
+            return model;
+        }
+        
+        throw new TypeError("Must implement [receiveRequest] method");
     }
 
 }

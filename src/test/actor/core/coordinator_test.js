@@ -8,8 +8,8 @@
 
 import coordinator from '../../../lib/actor/core/coordinator';
 
-import reflexive from '../../../lib/actor/foundation/reflexive_model';
-import request from '../../../lib/actor/foundation/reflexive_request';
+import reflexive from '../../../lib/actor/foundation/reflexive/reflexive_model';
+import request from '../../../lib/actor/foundation/reflexive/reflexive_request';
 
 import response from '../../../lib/actor/message/response';
 
@@ -82,7 +82,7 @@ export default  {
     var value = 0;
       
     const aCoordinator = coordinator(),
-          aResponse = response(v => value = v, _ => null, _ => null);
+          aResponse = response(v => value = v.data(), _ => null, _ => null);
       
     aCoordinator.actor('test').bind(reflexive(new Test0()));
     aCoordinator.askNow('test', request("getValue",[]), aResponse);
@@ -117,7 +117,7 @@ export default  {
     const aCoordinator = coordinator(),
           aResponse = response(v => null, v => value = v, _ => null);
       
-    aCoordinator.actor('test').bind(new Test0());
+    aCoordinator.actor('test').bind(reflexive(new Test0()));
     aCoordinator.disposeActor('test');
       
     aCoordinator.askNow('test', request("getValue",[]), aResponse);
@@ -146,7 +146,7 @@ export default  {
     var value = 0;
       
     const aCoordinator = coordinator().start(),
-          aResponse = response(v => value = v, _ => null, _ => null);
+          aResponse = response(v => value = v.data(), _ => null, _ => null);
       
     aCoordinator.actor('test').bind(reflexive(new Test0())); 
     aCoordinator.ask('test', request("getValue",[]), aResponse);
@@ -157,13 +157,13 @@ export default  {
     }, 500);
   },   
 
-  'coordinator can ask an existing actor with preserved ssequence': function(test) {
+  'coordinator can ask an existing actor with preserved sequence': function(test) {
     test.expect(2);    
       
     var value = 0;
       
     const aCoordinator = coordinator().start(),
-          aResponse = response(v => value = v, _ => null, _ => null);
+          aResponse = response(v => value = v.data(), _ => null, _ => null);
       
     aCoordinator.actor('test').bind(reflexive(new Test0())); 
 
@@ -184,13 +184,13 @@ export default  {
     
 },   
     
-  'coordinator can ask an existing actor before starting coordinator': function(test) {
+  'coordinator can ask an existing actor before started coordinator': function(test) {
     test.expect(1);    
       
     var value = 0;
       
     const aCoordinator = coordinator(),
-          aResponse = response(v => value = v, _ => null, _ => null);
+          aResponse = response(v => value = v.data(), _ => null, _ => null);
       
     aCoordinator.actor('test').bind(reflexive(new Test0())); 
     aCoordinator.ask('test', request("getValue",[]), aResponse);
@@ -203,13 +203,13 @@ export default  {
     }, 500);
   },
     
-  'coordinator can ask an existing actor before starting coordinator': function(test) {
+  'coordinator cannot ask an existing actor before stopped coordinator': function(test) {
     test.expect(1);    
       
     var value = 0;
       
     const aCoordinator = coordinator().start(),
-          aResponse = response(v => value = v, _ => null, _ => null);
+          aResponse = response(v => value = v.data(), _ => null, _ => null);
       
     aCoordinator.actor('test').bind(reflexive(new Test0()));   
     aCoordinator.stop();

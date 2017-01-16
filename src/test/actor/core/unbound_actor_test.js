@@ -9,8 +9,8 @@
 import coordinator from '../../../lib/actor/core/coordinator';
 import unboundActor from '../../../lib/actor/core/unbound_actor';
 
-import reflexive from '../../../lib/actor/foundation/reflexive_model';
-import request from '../../../lib/actor/foundation/reflexive_request';
+import reflexive from '../../../lib/actor/foundation/reflexive/reflexive_model';
+import request from '../../../lib/actor/foundation/reflexive/reflexive_request';
 
 import response from '../../../lib/actor/message/response';
 
@@ -70,7 +70,7 @@ export default  {
     const anUnboundActor = unboundActor(coordinator(), "test"),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    test.ok(anUnboundActor.bind(new Test0()).isBound(), EvalError, "should bind an unbound actor");
+    test.ok(anUnboundActor.bind(reflexive(new Test0())).isBound(), EvalError, "should bind an unbound actor");
       
     test.done();
   },

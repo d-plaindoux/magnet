@@ -9,8 +9,8 @@
 import coordinator from '../../../lib/actor/core/coordinator';
 import boundActor from '../../../lib/actor/core/bound_actor';
 
-import reflexive from '../../../lib/actor/foundation/reflexive_model';
-import request from '../../../lib/actor/foundation/reflexive_request';
+import reflexive from '../../../lib/actor/foundation/reflexive/reflexive_model';
+import request from '../../../lib/actor/foundation/reflexive/reflexive_request';
 
 import response from '../../../lib/actor/message/response';
 
@@ -28,11 +28,7 @@ class Test0 {
     }
 }
 
-class Test1 extends Test0 {
-    constructor() {
-        super();
-    }
-
+class Test1 {
     receiveRequest(request, response) {
         response.success(request.name());
     }
@@ -43,10 +39,18 @@ export default  {
     done();
   },
     
+  'bound actor rejected': function(test) {
+    test.expect(1);    
+      
+    test.throws(() => boundActor(coordinator(), "test", new Test0()), TypeError, 'should new bound Actor.');      
+      
+    test.done();
+  },
+    
   'bound actor creation': function(test) {
     test.expect(1);    
       
-    test.ok(boundActor(coordinator(), "test", new Test0()), 'should create a bound Actor.');      
+    test.ok(boundActor(coordinator(), "test", reflexive(new Test0())), 'should create a bound Actor.');      
       
     test.done();
   },
@@ -54,7 +58,7 @@ export default  {
   'bound actor cannot be bound twice': function(test) {
     test.expect(1);    
       
-    const anActor = boundActor(coordinator(), "test", new Test0());
+    const anActor = boundActor(coordinator(), "test", reflexive(new Test0()));
 
     test.throws(() => anActor.bind(1), EvalError, 'should bind twice an Actor.');      
       
@@ -64,7 +68,7 @@ export default  {
   'bound actor is bound': function(test) {
     test.expect(1);    
       
-    test.ok(boundActor(coordinator(), "test", new Test0()).isBound(), 'should create a bound Actor.');      
+    test.ok(boundActor(coordinator(), "test", reflexive(new Test0())).isBound(), 'should create a bound Actor.');      
       
     test.done();
   },
@@ -75,7 +79,7 @@ export default  {
     var value = 0;
       
     const aBoundActor = boundActor(coordinator(), "test", reflexive(new Test0())),
-          aResponse = response(v => value = v, _ => null, _ => null);
+          aResponse = response(v => value = v.data(), _ => null, _ => null);
       
     aBoundActor.askNow(request("getValue",[]), aResponse);
       
@@ -90,7 +94,7 @@ export default  {
     var value = 0;
       
     const aBoundActor = boundActor(coordinator(), "test", reflexive(new Test0())),
-          aResponse = response(v => value = v, _ => null, _ => null);
+          aResponse = response(v => value = v.data(), _ => null, _ => null);
       
     aBoundActor.askNow(request("setValue",[2]));
     aBoundActor.askNow(request("getValue",[]), aResponse);

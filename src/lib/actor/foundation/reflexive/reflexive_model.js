@@ -6,7 +6,9 @@
  * Licensed under the LGPL2 license.
  */
 
-import objects from "../../utils/objects";
+import objects from "../../../utils/objects";
+
+import response from "./reflexive_response";
 
 class ReflexiveModel {
     
@@ -19,15 +21,15 @@ class ReflexiveModel {
     receiveRequest(request, response) {
         if (this.model[request.name()]) {
             const method = this.model[request.name()];                
-            const result = method.apply(this.model, request.parameters());
-                
-            if (response) {
-                response.success(result);
+            try {
+                this.success(response, method.apply(this.model, request.parameters()));
+            } catch (e) {
+                failure(response, e);
             }
         } else if (this.model.receiveRequest) {
             this.model.receiveRequest(request, response);
         } else {                
-            throw new EvalError("Actor behavior not found");
+            this.failure(response, EvalError("Actor behavior not found"));
         }
     }
     
@@ -45,7 +47,17 @@ class ReflexiveModel {
         }
     }
  
-
+    success(responseHandler, result) {
+        if (responseHandler) {
+            responseHandler.success(response(result));        
+        }
+    }
+    
+    failure(responseHandler, exception) {
+        if (responseHandler) {
+            responseHandler.failure(exception);        
+        }
+    }    
 }
 
 // :: 'a -> ReflexiveModel 'a  throws ReferenceError
