@@ -34,6 +34,12 @@ class Test1 {
     }
 }
 
+class Test2 {
+    testError() {
+        throw new EvalError("Boom");
+    }
+}
+
 export default  {
   setUp: function(done) {
     done();
@@ -104,7 +110,7 @@ export default  {
     test.done();
   },
 
-  'bound actor calling undefined method succeed': function(test) {
+  'bound simple actor calling method succeed': function(test) {
     test.expect(1);    
     
     var value = 0;
@@ -119,6 +125,36 @@ export default  {
     test.done();
   },
 
+  'bound actor calling method throwing an error': function(test) {
+    test.expect(1);    
+    
+    var value = 0;
+      
+    const aBoundActor = boundActor(coordinator(), "test", reflexive(new Test2())),
+          aResponse = response(_ => null, v => value = v, _ => null);
+      
+    aBoundActor.askNow(request("testError",[]), aResponse);
+      
+    test.deepEqual(value, new EvalError("Boom"), 'should call immediately a bound Actor method.');      
+      
+    test.done();
+  },
+    
+  'bound actor calling transitive method': function(test) {
+    test.expect(1);    
+    
+    var value = 0;
+      
+    const aBoundActor = boundActor(coordinator(), "test", reflexive(new Test1())),
+          aResponse = response(v => value = v, _ => null, _ => null);
+      
+    aBoundActor.askNow(request("testMethod",[]), aResponse);
+      
+    test.equal(value, "testMethod", 'should call immediately a bound Actor unkown method.');      
+      
+    test.done();
+  },
+    
   'bound actor calling undefined method fails': function(test) {
     test.expect(1);    
     

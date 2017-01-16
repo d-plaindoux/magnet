@@ -24,7 +24,7 @@ class ReflexiveModel {
             try {
                 this.success(response, method.apply(this.model, request.parameters()));
             } catch (e) {
-                failure(response, e);
+                this.failure(response, e);
             }
         } else if (this.model.receiveRequest) {
             this.model.receiveRequest(request, response);
