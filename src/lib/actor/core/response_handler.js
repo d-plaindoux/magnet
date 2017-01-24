@@ -6,9 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-import objects from "../../utils/objects";
-
-class Response {
+class ResponseHandler {
     
     // :: ('a -> unit ) -> ('b -> unit  -> (unit -> unit) -> Response 'a 'b
     constructor(success, failure, timeout) {
@@ -34,10 +32,8 @@ class Response {
 }
 
 // :: ('a -> unit ) -> ('b -> unit ) -> (unit  -> unit ) -> Response 'a 'b throws ReferenceError
-function response(success, failure, timeout) {
-    objects.requireNonNull(success, "success");
-    
-    return new Response(success, failure || (_ => null), timeout || (_ => null));        
+function responseHandler(success, failure, timeout) {
+    return new ResponseHandler(success || (_ => null), failure || (_ => null), timeout || (_ => null));        
 }
 
-export default response;
+export default responseHandler;

@@ -7,5 +7,9 @@
  */
 
 import coordinator from "./coordinator";
+import response from "./response_handler";
 
-export default coordinator;
+export default {
+    coordinator,
+    response
+};

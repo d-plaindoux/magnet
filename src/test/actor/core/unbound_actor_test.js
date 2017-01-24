@@ -8,11 +8,11 @@
 
 import coordinator from '../../../lib/actor/core/coordinator';
 import unboundActor from '../../../lib/actor/core/unbound_actor';
+import response from '../../../lib/actor/core/response_handler';
 
 import reflexive from '../../../lib/actor/foundation/reflexive/reflexive_model';
 import request from '../../../lib/actor/foundation/reflexive/reflexive_request';
 
-import response from '../../../lib/actor/message/response';
 
 class Test0 {
     constructor() {

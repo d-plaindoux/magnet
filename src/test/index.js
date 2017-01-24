@@ -8,7 +8,7 @@
 
 import objectsTest from './utils/objects_test';
 
-import responseTest from './actor/message/response_test';
+import responseTest from './actor/core/response_handler_test';
 
 import requestTest from './actor/core/reflexive_request_test';
 

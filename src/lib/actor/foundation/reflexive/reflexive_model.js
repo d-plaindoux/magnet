@@ -8,8 +8,6 @@
 
 import objects from "../../../utils/objects";
 
-import response from "./reflexive_response";
-
 class ReflexiveModel {
     
     // :: 'a -> ReflexiveModel 'a
@@ -49,7 +47,7 @@ class ReflexiveModel {
  
     success(responseHandler, result) {
         if (responseHandler) {
-            responseHandler.success(response(result));        
+            responseHandler.success(result);        
         }
     }
     

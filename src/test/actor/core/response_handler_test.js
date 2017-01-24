@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-import response from '../../../lib/actor/message/response';
+import response from '../../../lib/actor/core/response_handler';
 
 export default  {
   setUp: function(done) {

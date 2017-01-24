@@ -8,11 +8,10 @@
 
 import coordinator from '../../../lib/actor/core/coordinator';
 import boundActor from '../../../lib/actor/core/bound_actor';
+import response from '../../../lib/actor/core/response_handler';
 
 import reflexive from '../../../lib/actor/foundation/reflexive/reflexive_model';
 import request from '../../../lib/actor/foundation/reflexive/reflexive_request';
-
-import response from '../../../lib/actor/message/response';
 
 class Test0 {
     constructor() {
@@ -85,7 +84,7 @@ export default  {
     var value = 0;
       
     const aBoundActor = boundActor(coordinator(), "test", reflexive(new Test0())),
-          aResponse = response(v => value = v.data(), _ => null, _ => null);
+          aResponse = response(v => value = v, _ => null, _ => null);
       
     aBoundActor.askNow(request("getValue",[]), aResponse);
       
@@ -100,7 +99,7 @@ export default  {
     var value = 0;
       
     const aBoundActor = boundActor(coordinator(), "test", reflexive(new Test0())),
-          aResponse = response(v => value = v.data(), _ => null, _ => null);
+          aResponse = response(v => value = v, _ => null, _ => null);
       
     aBoundActor.askNow(request("setValue",[2]));
     aBoundActor.askNow(request("getValue",[]), aResponse);
