@@ -16,7 +16,7 @@ export default  {
   'response creation': function(test) {
     test.expect(1);    
       
-    test.ok(response(_ => null, _ => null, _ => null), 'should create a response.');      
+    test.ok(response(), 'should create a response.');      
       
     test.done();
   },
@@ -25,7 +25,7 @@ export default  {
     test.expect(1);
       
     var value = 0;      
-    response(v => value = v, _ => null, _ => null).success(1);            
+    response(v => value = v).success(1);            
     test.equals(value, 1, 'should call response success.');      
       
     test.done();
@@ -35,7 +35,7 @@ export default  {
     test.expect(1);
       
     var value = 0;      
-    response(_ => null, v => value = v, _ => null).failure(1);            
+    response(null, v => value = v).failure(1);            
     test.equals(value, 1, 'should call response failure.');      
       
     test.done();
@@ -45,7 +45,7 @@ export default  {
     test.expect(1);
       
     var value = 0;      
-    response(_ => null, _ => null, v => value = 1).timeout();            
+    response(null, null, v => value = 1).timeout();            
     test.equals(value, 1, 'should call response failure.');      
       
     test.done();

@@ -8,7 +8,7 @@
 
 import objects from "../../utils/objects";
 
-import functionalModel from "../foundation/misc/functional_model";
+import functionalModel from "../foundation/functional/functional_model";
 
 import Actor from "./actor";
 
