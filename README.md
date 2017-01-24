@@ -7,12 +7,13 @@
 ## Introduction
 
 Magnet is a simple library dedicated to aynchronous and distributed execution 
-based on actor management thanks to a coordinator component.
+based on agent management thanks to a coordinator component.
 
 ### Hello World!
 
-An actor has the capability to communicate with a model. Such model can
-be a simple class or a function.
+An agent has the capability to communicate with a model. Such model can
+be a simple class or a function. Finally a model can interact with other
+agent or can simply create or manage existing agents.
 
 #### The Functional style
 
@@ -22,7 +23,7 @@ function hello(request, response) {
 }
 ```
 
-Then such function can simply managed by an actor and hosted by a given 
+Then such function can simply managed by an agent and hosted by a given 
 coordinator.
 
 ```javascriot
@@ -50,7 +51,7 @@ aCoordinator.actor("hello").bind(new Hello());
 
 ```
 
-#### Asking `World` job to the `hello` actor
+#### Asking `World` job to the `hello` agent
 
 ```javascriot
 aCoordinator.ask("hello", "World", aResponse);
