@@ -12,7 +12,7 @@ class FunctionalModel {
         this.funcall = funcall;
     }
     
-    receiveRequest(request, response) {
+    accept(request, response) {
         this.funcall(request, response);
     }
        

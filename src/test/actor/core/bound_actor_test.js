@@ -28,7 +28,7 @@ class Test0 {
 }
 
 class Test1 {
-    receiveRequest(request, response) {
+    accept(request, response) {
         response.success(request.name());
     }
 }

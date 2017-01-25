@@ -33,7 +33,7 @@ class BoundActor extends Actor {
     // :: (Request,Response?) -> unit
     askNow(request, response) {
         try {
-            this.model.receiveRequest(request, response);
+            this.model.accept(request, response);
         } catch (error) {
             if (response) {
                 response.failure(error);
@@ -59,11 +59,12 @@ class BoundActor extends Actor {
             return functionalModel(model);
         }
         
-        if (model.receiveRequest) {
+        if (model.accept) {
             return model;
         }
         
-        throw new TypeError("Must implement [receiveRequest] method");
+        
+        throw new TypeError("Must implement [accept] method");
     }
 
 }

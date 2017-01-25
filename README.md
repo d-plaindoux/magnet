@@ -37,7 +37,7 @@ aCoordinator.actor("hello").bind(hello);
 
 ```javascriot
 class Hello {
-    receiveRequest(request, response) {
+    accept(request, response) {
         response.success("Hello " + request + "!");
     }
 }

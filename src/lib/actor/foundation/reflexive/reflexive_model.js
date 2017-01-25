@@ -16,7 +16,7 @@ class ReflexiveModel {
     }
     
     // :: (Request,Response?) -> unit
-    receiveRequest(request, response) {
+    accept(request, response) {
         if (this.model[request.name()]) {
             const method = this.model[request.name()];                
             try {
@@ -24,8 +24,8 @@ class ReflexiveModel {
             } catch (e) {
                 this.failure(response, e);
             }
-        } else if (this.model.receiveRequest) {
-            this.model.receiveRequest(request, response);
+        } else if (this.model.accept) {
+            this.model.accept(request, response);
         } else {                
             this.failure(response, EvalError("Actor behavior not found"));
         }
