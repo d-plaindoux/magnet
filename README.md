@@ -27,8 +27,7 @@ Then such function can simply managed by an agent and hosted by a given
 coordinator.
 
 ```javascript
-const aCoordinator = coordinator(),
-      aResponse    = response(v => console.log(v))
+const aCoordinator = coordinator();
 
 aCoordinator.actor("hello").bind(hello);
 ```
@@ -44,16 +43,16 @@ class Hello {
 ```
 
 ```javascript
-const aCoordinator = coordinator(),
-      aResponse    = response(v => console.log(v))
+const aCoordinator = coordinator();
 
 aCoordinator.actor("hello").bind(new Hello());
-
 ```
 
 #### Asking `World` job to the `hello` agent
 
 ```javascript
+const aResponse = response(v => console.log(v));
+
 aCoordinator.ask("hello", "World", aResponse);
 ```
 
