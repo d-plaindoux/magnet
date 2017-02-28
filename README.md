@@ -17,7 +17,7 @@ agent or can simply create or manage existing agents.
 
 #### The Functional style
 
-```javascriot
+```javascript
 function hello(request, response) {
     response.success("Hello " + request + "!");
 }
@@ -26,16 +26,15 @@ function hello(request, response) {
 Then such function can simply managed by an agent and hosted by a given 
 coordinator.
 
-```javascriot
-const aCoordinator = coordinator(),
-      aResponse    = response(v => console.log(v))
+```javascript
+const aCoordinator = coordinator();
 
 aCoordinator.agent("hello").bind(hello);
 ```
 
 #### The Object-Oriented style
 
-```javascriot
+```javascript
 class Hello {
     accept(request, response) {
         response.success("Hello " + request + "!");
@@ -43,17 +42,17 @@ class Hello {
 }
 ```
 
-```javascriot
-const aCoordinator = coordinator(),
-      aResponse    = response(v => console.log(v))
+```javascript
+const aCoordinator = coordinator();
 
 aCoordinator.agent("hello").bind(new Hello());
-
 ```
 
 #### Asking `World` job to the `hello` agent
 
-```javascriot
+```javascript
+const aResponse = response(v => console.log(v));
+
 aCoordinator.ask("hello", "World", aResponse);
 ```
 
