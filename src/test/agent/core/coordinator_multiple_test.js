@@ -34,7 +34,7 @@ export default  {
   },
 
   'coordinator can ask an existing agent X times': function(test) {
-    var numberOfCall = 500;
+    var numberOfCall = 100;
       
     test.expect(numberOfCall);    
       
@@ -60,7 +60,7 @@ export default  {
 
     
   'coordinator can ask existing X agent one time': function(test) {
-    var numberOfCall = 500;
+    var numberOfCall = 100;
       
     test.expect(numberOfCall);    
       
