@@ -16,8 +16,8 @@ class Coordinator {
         
         this.pendingJobs = [];
         
-        this.intervalJobs = 100 /*ms*/;
-        this.intervalAgents = 100 /*ms*/;
+        this.intervalJobs = 1 /*ms*/;
+        this.intervalAgents = 1 /*ms*/;
         
         this.started = false;
         

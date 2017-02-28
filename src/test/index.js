@@ -17,6 +17,7 @@ import boundAgentTest from './agent/core/bound_agent_test'
 import unboundAgentTest from './agent/core/unbound_agent_test'
 
 import coordinatorTest from './agent/core/coordinator_test'
+import coordinatorMultipleTest from './agent/core/coordinator_multiple_test'
 
 export {
     objectsTest,        
@@ -29,5 +30,6 @@ export {
     boundAgentTest,
     unboundAgentTest,
         
-    coordinatorTest        
+    coordinatorTest,
+    coordinatorMultipleTest
 }
