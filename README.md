@@ -30,7 +30,7 @@ coordinator.
 const aCoordinator = coordinator(),
       aResponse    = response(v => console.log(v))
 
-aCoordinator.actor("hello").bind(hello);
+aCoordinator.agent("hello").bind(hello);
 ```
 
 #### The Object-Oriented style
@@ -47,7 +47,7 @@ class Hello {
 const aCoordinator = coordinator(),
       aResponse    = response(v => console.log(v))
 
-aCoordinator.actor("hello").bind(new Hello());
+aCoordinator.agent("hello").bind(new Hello());
 
 ```
 

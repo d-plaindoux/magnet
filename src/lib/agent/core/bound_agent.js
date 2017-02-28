@@ -10,7 +10,7 @@ import objects from "../../utils/objects";
 
 import functionalModel from "../foundation/functional/functional_model";
 
-import Actor from "./actor";
+import Actor from "./agent";
 
 class BoundActor extends Actor {
     

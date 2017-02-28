@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-import request from '../../../lib/actor/foundation/reflexive/reflexive_request';
+import request from '../../../lib/agent/foundation/reflexive/reflexive_request';
 
 export default  {
   setUp: function(done) {

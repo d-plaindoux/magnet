@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-import Actor from '../../../lib/actor/core/actor';
+import Actor from '../../../lib/agent/core/agent';
 
 export default  {
   setUp: function(done) {

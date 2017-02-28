@@ -6,12 +6,12 @@
  * Licensed under the LGPL2 license.
  */
 
-import coordinator from '../../../lib/actor/core/coordinator';
-import boundActor from '../../../lib/actor/core/bound_actor';
-import response from '../../../lib/actor/core/response_handler';
+import coordinator from '../../../lib/agent/core/coordinator';
+import boundActor from '../../../lib/agent/core/bound_agent';
+import response from '../../../lib/agent/core/response_handler';
 
-import reflexive from '../../../lib/actor/foundation/reflexive/reflexive_model';
-import request from '../../../lib/actor/foundation/reflexive/reflexive_request';
+import reflexive from '../../../lib/agent/foundation/reflexive/reflexive_model';
+import request from '../../../lib/agent/foundation/reflexive/reflexive_request';
 
 class Test0 {
     constructor() {
@@ -44,7 +44,7 @@ export default  {
     done();
   },
     
-  'bound actor rejected': function(test) {
+  'bound agent rejected': function(test) {
     test.expect(1);    
       
     test.throws(() => boundActor(coordinator(), "test", new Test0()), TypeError, 'should new bound Actor.');      
@@ -52,7 +52,7 @@ export default  {
     test.done();
   },
     
-  'bound actor creation': function(test) {
+  'bound agent creation': function(test) {
     test.expect(1);    
       
     test.ok(boundActor(coordinator(), "test", reflexive(new Test0())), 'should create a bound Actor.');      
@@ -60,7 +60,7 @@ export default  {
     test.done();
   },
     
-  'bound actor cannot be bound twice': function(test) {
+  'bound agent cannot be bound twice': function(test) {
     test.expect(1);    
       
     const anActor = boundActor(coordinator(), "test", reflexive(new Test0()));
@@ -70,7 +70,7 @@ export default  {
     test.done();
   },
     
-  'bound actor is bound': function(test) {
+  'bound agent is bound': function(test) {
     test.expect(1);    
       
     test.ok(boundActor(coordinator(), "test", reflexive(new Test0())).isBound(), 'should create a bound Actor.');      
@@ -78,7 +78,7 @@ export default  {
     test.done();
   },
     
-  'bound actor calling getValue': function(test) {
+  'bound agent calling getValue': function(test) {
     test.expect(1);    
     
     var value = 0;
@@ -93,7 +93,7 @@ export default  {
     test.done();
   },
 
-  'bound actor calling setValue and then getValue': function(test) {
+  'bound agent calling setValue and then getValue': function(test) {
     test.expect(1);    
     
     var value = 0;
@@ -109,7 +109,7 @@ export default  {
     test.done();
   },
 
-  'bound simple actor calling method succeed': function(test) {
+  'bound simple agent calling method succeed': function(test) {
     test.expect(1);    
     
     var value = 0;
@@ -124,7 +124,7 @@ export default  {
     test.done();
   },
 
-  'bound actor calling method throwing an error': function(test) {
+  'bound agent calling method throwing an error': function(test) {
     test.expect(1);    
     
     var value = 0;
@@ -139,7 +139,7 @@ export default  {
     test.done();
   },
     
-  'bound actor calling transitive method': function(test) {
+  'bound agent calling transitive method': function(test) {
     test.expect(1);    
     
     var value = 0;
@@ -154,7 +154,7 @@ export default  {
     test.done();
   },
     
-  'bound actor calling undefined method fails': function(test) {
+  'bound agent calling undefined method fails': function(test) {
     test.expect(1);    
     
     var value = 0;
@@ -170,7 +170,7 @@ export default  {
   },
     
     
-  'bound actor with function': function(test) {
+  'bound agent with function': function(test) {
     test.expect(1);    
     
     var value = 0;

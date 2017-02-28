@@ -8,8 +8,8 @@
 
 import objects from "../../utils/objects";
 
-import Actor from "./actor";
-import boundActor from "./bound_actor";
+import Actor from "./agent";
+import boundActor from "./bound_agent";
 
 class UnboundActor extends Actor {
     

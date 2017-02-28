@@ -6,12 +6,12 @@
  * Licensed under the LGPL2 license.
  */
 
-import coordinator from '../../../lib/actor/core/coordinator';
-import unboundActor from '../../../lib/actor/core/unbound_actor';
-import response from '../../../lib/actor/core/response_handler';
+import coordinator from '../../../lib/agent/core/coordinator';
+import unboundActor from '../../../lib/agent/core/unbound_agent';
+import response from '../../../lib/agent/core/response_handler';
 
-import reflexive from '../../../lib/actor/foundation/reflexive/reflexive_model';
-import request from '../../../lib/actor/foundation/reflexive/reflexive_request';
+import reflexive from '../../../lib/agent/foundation/reflexive/reflexive_model';
+import request from '../../../lib/agent/foundation/reflexive/reflexive_request';
 
 
 class Test0 {
@@ -37,7 +37,7 @@ export default  {
     done();
   },
     
-  'unbound actor creation': function(test) {
+  'unbound agent creation': function(test) {
     test.expect(1);    
       
     test.ok(unboundActor(coordinator(), "test"), 'should create an unbound Actor.');      
@@ -45,7 +45,7 @@ export default  {
     test.done();
   },
         
-  'unbound actor is not bound': function(test) {
+  'unbound agent is not bound': function(test) {
     test.expect(1);    
       
     test.equal(unboundActor(coordinator(), "test").isBound(), false, 'should create an unbound Actor.');      
@@ -53,7 +53,7 @@ export default  {
     test.done();
   },
         
-  'unbound actor cannot be asked': function(test) {
+  'unbound agent cannot be asked': function(test) {
     test.expect(1);    
       
     const anUnboundActor = unboundActor(coordinator(), "test"),
@@ -64,13 +64,13 @@ export default  {
     test.done();
   },
         
-  'unbound actor can be bound': function(test) {
+  'unbound agent can be bound': function(test) {
     test.expect(1);    
       
     const anUnboundActor = unboundActor(coordinator(), "test"),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    test.ok(anUnboundActor.bind(reflexive(new Test0())).isBound(), EvalError, "should bind an unbound actor");
+    test.ok(anUnboundActor.bind(reflexive(new Test0())).isBound(), EvalError, "should bind an unbound agent");
       
     test.done();
   },

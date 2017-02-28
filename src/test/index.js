@@ -8,15 +8,15 @@
 
 import objectsTest from './utils/objects_test';
 
-import responseTest from './actor/core/response_handler_test';
+import responseTest from './agent/core/response_handler_test';
 
-import requestTest from './actor/core/reflexive_request_test';
+import requestTest from './agent/core/reflexive_request_test';
 
-import actorTest from './actor/core/actor_test'
-import boundActorTest from './actor/core/bound_actor_test'
-import unboundActorTest from './actor/core/unbound_actor_test'
+import agentTest from './agent/core/agent_test'
+import boundActorTest from './agent/core/bound_agent_test'
+import unboundActorTest from './agent/core/unbound_agent_test'
 
-import coordinatorTest from './actor/core/coordinator_test'
+import coordinatorTest from './agent/core/coordinator_test'
 
 export {
     objectsTest,        
@@ -25,7 +25,7 @@ export {
 
     requestTest,
     
-    actorTest,
+    agentTest,
     boundActorTest,
     unboundActorTest,
         

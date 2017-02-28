@@ -6,10 +6,10 @@
  * Licensed under the LGPL2 license.
  */
 
-import actor from "./actor/core";
+import agent from "./agent/core";
 
 export default {
-    actor,
+    agent,
     response
 }
 

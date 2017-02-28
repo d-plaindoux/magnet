@@ -3,7 +3,7 @@
   "description": "Multi-Agent network",
   "license": "LGPL-2.1",
   "version": "0.0.1",
-  "keywords": ["actor","messaging","collaboration","distribution"],
+  "keywords": ["agent","messaging","collaboration","distribution"],
   "homepage": "https://github.com/d-plaindoux/magnet",
   "author": {
     "name": "Didier Plaindoux",

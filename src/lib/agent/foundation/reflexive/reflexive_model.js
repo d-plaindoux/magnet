@@ -32,9 +32,9 @@ class ReflexiveModel {
     }
     
     // unit -> unit
-    boundAsActor(coordinator, actor) {
+    boundAsActor(coordinator, agent) {
         if (this.model.boundAsActor) {
-            this.model.boundAsActor(coordinator, actor);
+            this.model.boundAsActor(coordinator, agent);
         }
     }
     
