@@ -27,21 +27,21 @@ class ReflexiveModel {
         } else if (this.model.accept) {
             this.model.accept(request, response);
         } else {                
-            this.failure(response, EvalError("Actor behavior not found"));
+            this.failure(response, EvalError("Agent behavior not found"));
         }
     }
     
     // unit -> unit
-    boundAsActor(coordinator, agent) {
-        if (this.model.boundAsActor) {
-            this.model.boundAsActor(coordinator, agent);
+    boundAsAgent(coordinator, agent) {
+        if (this.model.boundAsAgent) {
+            this.model.boundAsAgent(coordinator, agent);
         }
     }
     
     // unit -> unit
-    unboundAsActor() {
-        if (this.model.unboundAsActor) {
-            this.model.unboundAsActor();
+    unboundAsAgent() {
+        if (this.model.unboundAsAgent) {
+            this.model.unboundAsAgent();
         }
     }
  

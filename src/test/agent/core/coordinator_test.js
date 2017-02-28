@@ -43,7 +43,7 @@ export default  {
   'coordinator cannot check an undefined agent': function(test) {
     test.expect(1);    
       
-    test.notEqual(coordinator().hasActor("test"), true, 'should not retreive an agent.');      
+    test.notEqual(coordinator().hasAgent("test"), true, 'should not retreive an agent.');      
       
     test.done();
   },
@@ -71,7 +71,7 @@ export default  {
       
     aCoordinator.agent('test');
       
-    test.ok(aCoordinator.hasActor("test"), 'should retreive an agent.');      
+    test.ok(aCoordinator.hasAgent("test"), 'should retreive an agent.');      
       
     test.done();
   },
@@ -87,7 +87,7 @@ export default  {
     aCoordinator.agent('test').bind(reflexive(new Test0()));
     aCoordinator.askNow('test', request("getValue",[]), aResponse);
         
-    test.equal(value, 1, 'should call immediately an test Actor getValue.');      
+    test.equal(value, 1, 'should call immediately an test Agent getValue.');      
         
     test.done();
   },
@@ -101,11 +101,11 @@ export default  {
           aResponse = response(v => null, v => value = v, _ => null);
       
     aCoordinator.agent('test');
-    aCoordinator.disposeActor('test');
+    aCoordinator.disposeAgent('test');
       
     aCoordinator.askNow('test', request("getValue",[]), aResponse);
        
-    test.deepEqual(value, new EvalError("Actor not found"), 'should not call a disposed unbound Actor.');      
+    test.deepEqual(value, new EvalError("Agent not found"), 'should not call a disposed unbound Agent.');      
     test.done();        
   },
         
@@ -118,11 +118,11 @@ export default  {
           aResponse = response(v => null, v => value = v, _ => null);
       
     aCoordinator.agent('test').bind(reflexive(new Test0()));
-    aCoordinator.disposeActor('test');
+    aCoordinator.disposeAgent('test');
       
     aCoordinator.askNow('test', request("getValue",[]), aResponse);
        
-    test.deepEqual(value, new EvalError("Actor not found"), 'should not call a disposed bound Actor.');      
+    test.deepEqual(value, new EvalError("Agent not found"), 'should not call a disposed bound Agent.');      
     test.done();        
   },
         
@@ -136,7 +136,7 @@ export default  {
       
     aCoordinator.askNow('test', request("getValue",[]), aResponse);
        
-    test.deepEqual(value, new EvalError("Actor not found"), 'should not call an Actor unknwon.');      
+    test.deepEqual(value, new EvalError("Agent not found"), 'should not call an Agent unknwon.');      
     test.done();        
   },
 
@@ -152,7 +152,7 @@ export default  {
     aCoordinator.ask('test', request("getValue",[]), aResponse);
        
     setTimeout(() => {
-        test.equal(value, 1, 'should call a test Actor getValue.');              
+        test.equal(value, 1, 'should call a test Agent getValue.');              
         test.done();        
     }, 500);
   },   
@@ -170,13 +170,13 @@ export default  {
     aCoordinator.ask('test', request("getValue",[]), aResponse);
        
     setTimeout(() => {
-        test.equal(value, 1, 'should call a test Actor getValue.');              
+        test.equal(value, 1, 'should call a test Agent getValue.');              
 
         aCoordinator.ask('test', request("setValue",[2]));
         aCoordinator.ask('test', request("getValue",[]), aResponse);
 
         setTimeout(() => {
-            test.equal(value, 2, 'should call a test Actor getValue after a set value.');              
+            test.equal(value, 2, 'should call a test Agent getValue after a set value.');              
             test.done();        
         }, 500);
         
@@ -198,7 +198,7 @@ export default  {
     aCoordinator.start();
        
     setTimeout(() => {
-        test.equal(value, 1, 'should call a test Actor getValue.');              
+        test.equal(value, 1, 'should call a test Agent getValue.');              
         test.done();        
     }, 500);
   },
@@ -217,7 +217,7 @@ export default  {
     aCoordinator.ask('test', request("getValue",[]), aResponse);
        
     setTimeout(() => {
-        test.equal(value, 0, 'should not call a test Actor getValue when coordinator is not running.');              
+        test.equal(value, 0, 'should not call a test Agent getValue when coordinator is not running.');              
         test.done();        
     }, 500);
   },
@@ -233,7 +233,7 @@ export default  {
     aCoordinator.ask('test', request("getValue",[]), aResponse);
        
     setTimeout(() => {
-        test.deepEqual(value, new EvalError("Actor not found"), 'should not call an Actor unknwon.');      
+        test.deepEqual(value, new EvalError("Agent not found"), 'should not call an Agent unknwon.');      
         test.done();        
     }, 500);
   },

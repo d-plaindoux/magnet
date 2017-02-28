@@ -13,8 +13,8 @@ import responseTest from './agent/core/response_handler_test';
 import requestTest from './agent/core/reflexive_request_test';
 
 import agentTest from './agent/core/agent_test'
-import boundActorTest from './agent/core/bound_agent_test'
-import unboundActorTest from './agent/core/unbound_agent_test'
+import boundAgentTest from './agent/core/bound_agent_test'
+import unboundAgentTest from './agent/core/unbound_agent_test'
 
 import coordinatorTest from './agent/core/coordinator_test'
 
@@ -26,8 +26,8 @@ export {
     requestTest,
     
     agentTest,
-    boundActorTest,
-    unboundActorTest,
+    boundAgentTest,
+    unboundAgentTest,
         
     coordinatorTest        
 }

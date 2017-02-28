@@ -7,12 +7,12 @@
  */
 
 
-class /* abstract */ Actor {
+class /* abstract */ Agent {
     
-    // :: (Coordinator,String) -> Actor
+    // :: (Coordinator,String) -> Agent
     constructor(coordinator, identifier) {
         // Since new.target is not supported in uglify stage            
-        if (this.constructor.name === 'Actor') { 
+        if (this.constructor.name === 'Agent') { 
             throw new TypeError("Abstract class");
         }
         
@@ -30,7 +30,7 @@ class /* abstract */ Actor {
     // :: (Request,Response) -> unit
     ask(request, response) {    
         this.mailbox.push({request:request, response:response});
-        this.coordinator.startActorRunner();
+        this.coordinator.startAgentRunner();
     }
     
     // :: unit -> (Request,Response)?
@@ -43,5 +43,5 @@ class /* abstract */ Actor {
     }
 }
 
-export default Actor;
+export default Agent;
 

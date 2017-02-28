@@ -6,17 +6,25 @@
  * Licensed under the LGPL2 license.
  */
 
-import Actor from '../../../lib/agent/core/agent';
+import Agent from '../../../lib/agent/core/agent';
 
 export default  {
   setUp: function(done) {
     done();
   },
     
-  'Cannot create an Actor instance': function(test) {
+  'Cannot create an Agent instance': function(test) {
     test.expect(1);    
       
-    test.throws(() => new Actor(null, null), TypeError, 'should not create an instance.');      
+    test.throws(() => new Agent(null, null), TypeError, 'should not create an instance.');      
+      
+    test.done();
+  },
+    
+  'Cannot create an Agent instance': function(test) {
+    test.expect(1);    
+      
+    test.throws(() => new Agent(null, null), TypeError, 'should not create an instance.');      
       
     test.done();
   },

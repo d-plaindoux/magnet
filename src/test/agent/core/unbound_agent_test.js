@@ -7,7 +7,7 @@
  */
 
 import coordinator from '../../../lib/agent/core/coordinator';
-import unboundActor from '../../../lib/agent/core/unbound_agent';
+import unboundAgent from '../../../lib/agent/core/unbound_agent';
 import response from '../../../lib/agent/core/response_handler';
 
 import reflexive from '../../../lib/agent/foundation/reflexive/reflexive_model';
@@ -27,7 +27,7 @@ class Test0 {
         this.value = value;
     }
     
-    boundAsActor() {
+    boundAsAgent() {
         // nothing
     }
 }
@@ -40,7 +40,7 @@ export default  {
   'unbound agent creation': function(test) {
     test.expect(1);    
       
-    test.ok(unboundActor(coordinator(), "test"), 'should create an unbound Actor.');      
+    test.ok(unboundAgent(coordinator(), "test"), 'should create an unbound Agent.');      
       
     test.done();
   },
@@ -48,7 +48,7 @@ export default  {
   'unbound agent is not bound': function(test) {
     test.expect(1);    
       
-    test.equal(unboundActor(coordinator(), "test").isBound(), false, 'should create an unbound Actor.');      
+    test.equal(unboundAgent(coordinator(), "test").isBound(), false, 'should create an unbound Agent.');      
       
     test.done();
   },
@@ -56,10 +56,10 @@ export default  {
   'unbound agent cannot be asked': function(test) {
     test.expect(1);    
       
-    const anUnboundActor = unboundActor(coordinator(), "test"),
+    const anUnboundAgent = unboundAgent(coordinator(), "test"),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    test.throws(() => anUnboundActor.askNow(request("getValue",[]), aResponse), EvalError, "should not call immediately getValue");
+    test.throws(() => anUnboundAgent.askNow(request("getValue",[]), aResponse), EvalError, "should not call immediately getValue");
       
     test.done();
   },
@@ -67,10 +67,10 @@ export default  {
   'unbound agent can be bound': function(test) {
     test.expect(1);    
       
-    const anUnboundActor = unboundActor(coordinator(), "test"),
+    const anUnboundAgent = unboundAgent(coordinator(), "test"),
           aResponse = response(v => value = v, _ => null, _ => null);
       
-    test.ok(anUnboundActor.bind(reflexive(new Test0())).isBound(), EvalError, "should bind an unbound agent");
+    test.ok(anUnboundAgent.bind(reflexive(new Test0())).isBound(), EvalError, "should bind an unbound agent");
       
     test.done();
   },

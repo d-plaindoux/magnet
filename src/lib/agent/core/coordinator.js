@@ -6,7 +6,7 @@
  * Licensed under the LGPL2 license.
  */
 
-import unboundActor from "./unbound_agent";
+import unboundAgent from "./unbound_agent";
 
 class Coordinator {
     
@@ -17,7 +17,7 @@ class Coordinator {
         this.pendingJobs = [];
         
         this.intervalJobs = 100 /*ms*/;
-        this.intervalActors = 100 /*ms*/;
+        this.intervalAgents = 100 /*ms*/;
         
         this.started = false;
         
@@ -32,7 +32,7 @@ class Coordinator {
         this.started = true;
         
         this.startJobRunner();
-        this.startActorRunner();
+        this.startAgentRunner();
         
         return this;
     }
@@ -51,15 +51,15 @@ class Coordinator {
     }
 
     // :: unit -> unit
-    startActorRunner() {
+    startAgentRunner() {
         if (this.started && this.agentRunnerInterval === undefined) {
-            this.agentRunnerInterval = this.startRunner("agent", () => this.agentRunner(), this.intervalActors);
+            this.agentRunnerInterval = this.startRunner("agent", () => this.agentRunner(), this.intervalAgents);
         }
     }
 
     // :: unit -> Coordinator
     stop() {
-        this.stopActorRunner();
+        this.stopAgentRunner();
         this.stopJobRunner();
         
         this.started = false;
@@ -82,7 +82,7 @@ class Coordinator {
     }
 
     // :: unit -> unit
-    stopActorRunner() {
+    stopAgentRunner() {
         if (this.started && this.agentRunnerInterval !== undefined) {            
             this.agentRunnerInterval = this.stopRunner("agent", this.agentRunnerInterval);
         }
@@ -119,46 +119,46 @@ class Coordinator {
         if (this.pendingJobs.length > 0) {
             this.startJobRunner();
         } else {
-            this.stopActorRunner();
+            this.stopAgentRunner();
         }
     }
 
     //
-    // Actor (un)registration features
+    // Agent (un)registration features
     //
 
-    // :: Actor -> unit
-    registerActor(anActor) {
-        this.universe.set(anActor.getIdentifier(), anActor);
+    // :: Agent -> unit
+    registerAgent(anAgent) {
+        this.universe.set(anAgent.getIdentifier(), anAgent);
     }
 
     // :: string -> unit
-    disposeActor(identifier) {
-        if (this.hasActor(identifier)) {
+    disposeAgent(identifier) {
+        if (this.hasAgent(identifier)) {
             this.agent(identifier).unbind();            
             this.universe.delete(identifier);            
         }
     }
 
     //
-    // Actor creation and deletion
+    // Agent creation and deletion
     //
 
     // :: string -> boolean
-    hasActor(identifier) {
+    hasAgent(identifier) {
         return this.universe.has(identifier);
     }
 
-    // :: string -> Actor
+    // :: string -> Agent
     agent(identifier) {
-        var anActor = this.universe.get(identifier);
+        var anAgent = this.universe.get(identifier);
 
-        if (!anActor) {
-            anActor = unboundActor(this, identifier);
-            this.registerActor(anActor);
+        if (!anAgent) {
+            anAgent = unboundAgent(this, identifier);
+            this.registerAgent(anAgent);
         }
 
-        return anActor;
+        return anAgent;
     }
 
     //
@@ -167,33 +167,33 @@ class Coordinator {
 
     // :: (string, Resquest, Response) -> unit
     ask(identifier, request, response) {
-        if (this.hasActor(identifier)) {
+        if (this.hasAgent(identifier)) {
             this.agent(identifier).ask(request, response);
         } else {
             if (response) {
-                response.failure(new EvalError("Actor not found"));
+                response.failure(new EvalError("Agent not found"));
             } else {
-                this.logger("Actor " + request.getIdentifier() + " not found");
+                this.logger("Agent " + request.getIdentifier() + " not found");
             }
         }
     }
 
     // :: (string, Resquest, Response) -> unit
     askNow(identifier, request, response) {
-        if (this.hasActor(identifier)) {
+        if (this.hasAgent(identifier)) {
             this.agent(identifier).askNow(request, response);
         } else {
             if (response) {
-                response.failure(new EvalError("Actor not found"));
+                response.failure(new EvalError("Agent not found"));
             } else {
-                this.logger("Actor " + request.getIdentifier() + " not found");
+                this.logger("Agent " + request.getIdentifier() + " not found");
             }
         }
     }
 
     // :: (Resquest) -> unit
     broadcast(request) {
-        this.universe.forEach(anActor => anActor.ask(request));
+        this.universe.forEach(anAgent => anAgent.ask(request));
     }
 
 }

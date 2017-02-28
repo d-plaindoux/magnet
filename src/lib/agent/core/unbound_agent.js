@@ -8,12 +8,12 @@
 
 import objects from "../../utils/objects";
 
-import Actor from "./agent";
-import boundActor from "./bound_agent";
+import Agent from "./agent";
+import boundAgent from "./bound_agent";
 
-class UnboundActor extends Actor {
+class UnboundAgent extends Agent {
     
-    // :: (Coordinator,String) -> Actor
+    // :: (Coordinator,String) -> Agent
     constructor(coordinator, identifier) {
         super(coordinator, identifier);        
     }
@@ -25,16 +25,16 @@ class UnboundActor extends Actor {
 
     // :: (Request, Response) -> throws EvalError
     askNow(request, response) {
-        throw new EvalError("Actor unbound");
+        throw new EvalError("Agent unbound");
     }
     
-    // :: 'a -> BoundActor 'a
+    // :: 'a -> BoundAgent 'a
     bind(model) {
-        var anActor = boundActor(this.coordinator, this.identifier, model);
+        var anAgent = boundAgent(this.coordinator, this.identifier, model);
         
-        this.coordinator.registerActor(anActor);
+        this.coordinator.registerAgent(anAgent);
         
-        return anActor;
+        return anAgent;
     } 
     
     // :: unit -> unit
@@ -43,13 +43,13 @@ class UnboundActor extends Actor {
     }
 }
 
-// :: (Coordinator,String) -> Actor throws ReferenceError
-function unboundActor(coordinator, identifier) {
+// :: (Coordinator,String) -> Agent throws ReferenceError
+function unboundAgent(coordinator, identifier) {
     objects.requireNonNull(coordinator, "coordinator");
     objects.requireNonNull(identifier, "identifier");
 
-    return new UnboundActor(coordinator, identifier);
+    return new UnboundAgent(coordinator, identifier);
 }
 
-export default unboundActor;
+export default unboundAgent;
  

@@ -10,18 +10,18 @@ import objects from "../../utils/objects";
 
 import functionalModel from "../foundation/functional/functional_model";
 
-import Actor from "./agent";
+import Agent from "./agent";
 
-class BoundActor extends Actor {
+class BoundAgent extends Agent {
     
-    // :: (Coordinator,String,'a) -> BoundActor 'a
+    // :: (Coordinator,String,'a) -> BoundAgent 'a
     constructor(coordinator, identifier, model) {
         super(coordinator, identifier);       
         
         this.model = this.handleModel(model);
         
-        if (this.model.boundAsActor) {
-            this.model.boundAsActor(this.coordinator, this);
+        if (this.model.boundAsAgent) {
+            this.model.boundAsAgent(this.coordinator, this);
         }
     }
     
@@ -43,13 +43,13 @@ class BoundActor extends Actor {
         
     // :: 'a -> throws EvalError
     bind(model) {
-        throw new EvalError("Actor already bound");
+        throw new EvalError("Agent already bound");
     }
 
     // :: unit -> unit
     unbind() {
-        if (this.model.unboundAsActor) {
-            this.model.unboundAsActor();
+        if (this.model.unboundAsAgent) {
+            this.model.unboundAsAgent();
         }
     }
        
@@ -69,14 +69,14 @@ class BoundActor extends Actor {
 
 }
 
-// :: (Coordinator,String,'a) -> BoundActor 'a throws ReferenceError
-function boundActor(coordinator, identifier, model) {
+// :: (Coordinator,String,'a) -> BoundAgent 'a throws ReferenceError
+function boundAgent(coordinator, identifier, model) {
     objects.requireNonNull(coordinator, "coordinator");
     objects.requireNonNull(identifier, "identifier");
     objects.requireNonNull(model, "model");
     
-    return new BoundActor(coordinator, identifier, model);
+    return new BoundAgent(coordinator, identifier, model);
 }
 
-export default boundActor;
+export default boundAgent;
  
