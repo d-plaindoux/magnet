@@ -13,24 +13,24 @@ import functionalModel from "../foundation/functional/functional_model";
 import Agent from "./agent";
 
 class BoundAgent extends Agent {
-    
+
     // :: (Coordinator,String,'a) -> BoundAgent 'a
     constructor(coordinator, identifier, model) {
-        super(coordinator, identifier);       
-        
+        super(coordinator, identifier);
+
         this.model = this.handleModel(model);
-        
+
         if (this.model.boundAsAgent) {
             this.model.boundAsAgent(this.coordinator, this);
         }
     }
-    
+
     // :: unit -> boolean
     isBound() {
         return true;
     }
-    
-    // :: (Request,Response?) -> unit
+
+    // :: (Request,Response?) -> 'a'
     askNow(request, response) {
         try {
             this.model.accept(request, response);
@@ -40,7 +40,7 @@ class BoundAgent extends Agent {
             }
         }
     }
-        
+
     // :: 'a -> throws EvalError
     bind(model) {
         throw new EvalError("Agent already bound");
@@ -52,18 +52,18 @@ class BoundAgent extends Agent {
             this.model.unboundAsAgent();
         }
     }
-       
+
     // :: Any -> Model
     handleModel(model) {
         if (typeof model === "function") {
             return functionalModel(model);
         }
-        
+
         if (model.accept) {
             return model;
         }
-        
-        
+
+
         throw new TypeError("Must implement [accept] method");
     }
 
@@ -74,9 +74,8 @@ function boundAgent(coordinator, identifier, model) {
     objects.requireNonNull(coordinator, "coordinator");
     objects.requireNonNull(identifier, "identifier");
     objects.requireNonNull(model, "model");
-    
+
     return new BoundAgent(coordinator, identifier, model);
 }
 
 export default boundAgent;
- 

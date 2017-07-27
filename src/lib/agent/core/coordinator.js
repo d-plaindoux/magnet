@@ -9,31 +9,31 @@
 import unboundAgent from "./unbound_agent";
 
 class Coordinator {
-    
+
     // :: Logger -> Coordinator
     constructor(logger) {
         this.universe = new Map();
-        
+
         this.pendingJobs = [];
-        
+
         this.intervalJobs = 1 /*ms*/;
         this.intervalAgents = 1 /*ms*/;
-        
+
         this.started = false;
-        
+
         this.jobRunnerInterval = undefined;
         this.agentRunnerInterval = undefined;
-        
+
         this.logger = logger;
-    }   
+    }
 
     // :: unit -> Coordinator
     start() {
         this.started = true;
-        
+
         this.startJobRunner();
         this.startAgentRunner();
-        
+
         return this;
     }
 
@@ -42,7 +42,7 @@ class Coordinator {
         this.logger("Starting the " + name + " runner");
         return setInterval(callback, duration);
     }
-    
+
     // :: unit -> unit
     startJobRunner() {
         if (this.started && this.jobRunnerInterval === undefined) {
@@ -61,33 +61,33 @@ class Coordinator {
     stop() {
         this.stopAgentRunner();
         this.stopJobRunner();
-        
+
         this.started = false;
-        
+
         return this;
     }
 
     // :: (string,runner) -> undefined
     stopRunner(name, runner) {
-        this.logger("Stopping the " + name + " runner");            
+        this.logger("Stopping the " + name + " runner");
         clearInterval(runner);
         return undefined;
     }
 
     // :: unit -> unit
     stopJobRunner() {
-        if (this.started && this.jobRunnerInterval !== undefined) {            
+        if (this.started && this.jobRunnerInterval !== undefined) {
             this.jobRunnerInterval = this.stopRunner("job", this.jobRunnerInterval);
         }
     }
 
     // :: unit -> unit
     stopAgentRunner() {
-        if (this.started && this.agentRunnerInterval !== undefined) {            
+        if (this.started && this.agentRunnerInterval !== undefined) {
             this.agentRunnerInterval = this.stopRunner("agent", this.agentRunnerInterval);
         }
     }
-    
+
     //
     // Privates runners behaviors
     //
@@ -135,8 +135,8 @@ class Coordinator {
     // :: string -> unit
     disposeAgent(identifier) {
         if (this.hasAgent(identifier)) {
-            this.agent(identifier).unbind();            
-            this.universe.delete(identifier);            
+            this.agent(identifier).unbind();
+            this.universe.delete(identifier);
         }
     }
 
