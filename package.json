@@ -29,16 +29,16 @@
   },
   "scripts": {
     "prepublish": "echo '--- Prepublishing ---\n' && npm run test && npm run compile",
-    "compile":    "rm -rf build/ && mkdir build && babel src --out-dir build  --source-maps",
+    "compile":    "rimraf build/ && mkdir build && babel src --out-dir build  --source-maps",
     "dev":        "babel --watch src --out-dir dist",
     "lint":       "eslint src/**",
     "test":       "npm run compile && nodeunit build/test/index.js",
-    "cover":      "rm -rf coverage && mkdir coverage && babel-node node_modules/.bin/babel-istanbul cover --dir coverage/istanbul node_modules/.bin/nodeunit src/test/index.js",
-    "coveralls":  "cat coverage/istanbul/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "cover":      "rimraf coverage && mkdir coverage && babel-node node_modules/.bin/babel-istanbul cover --dir coverage/istanbul node_modules/.bin/nodeunit src/test/index.js",
+    "coveralls":  "cat coverage/istanbul/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rimraf ./coverage",
     "check":      "npm run lint && npm run test && npm run cover && npm run coveralls",
-    "concat":     "rm -rf dist/ && mkdir dist && npm run compile && browserify build/lib/index.js -o index.js",
-    "dist":       "rm -rf dist/ && mkdir dist && npm run compile && browserify -t uglifyify build/lib/index.js -o dist/magnet.min.js",
-    "clean":      "rm -rf dist/ && rm -fr coverage/ && rm -fr build/"
+    "concat":     "rimraf dist/ && mkdir dist && npm run compile && browserify build/lib/index.js -o index.js",
+    "dist":       "rimraf dist/ && mkdir dist && npm run compile && browserify -t uglifyify build/lib/index.js -o dist/magnet.min.js",
+    "clean":      "rimraf dist/ && rimraf coverage/ && rimraf build/"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
@@ -49,7 +49,7 @@
     "browserify": "~9.0.3",
     "coveralls": "~2.11.2",
     "eslint": "^3.3.0",
-    "nodeunit": "~0.9.0",
+    "nodeunit": "~0.9.1",
     "uglifyify": "^3.0.4",
     "rimraf": "^2.6.1"
   },

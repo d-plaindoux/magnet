@@ -95,11 +95,7 @@ class Coordinator {
     // :: unit -> unit
     jobRunner() {
         if (this.pendingJobs.length > 0) {
-            try {
-                this.pendingJobs.shift()();
-            } catch (e) {
-                this.logger(e);
-            }
+            this.pendingJobs.shift()();
         } else {
             this.stopJobRunner();
         }
@@ -172,8 +168,6 @@ class Coordinator {
         } else {
             if (response) {
                 response.failure(new EvalError("Agent not found"));
-            } else {
-                this.logger("Agent " + request.getIdentifier() + " not found");
             }
         }
     }
@@ -185,8 +179,6 @@ class Coordinator {
         } else {
             if (response) {
                 response.failure(new EvalError("Agent not found"));
-            } else {
-                this.logger("Agent " + request.getIdentifier() + " not found");
             }
         }
     }

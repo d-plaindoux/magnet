@@ -15,7 +15,7 @@ class /* abstract */ Agent {
     // :: (Coordinator,String) -> Agent
     constructor(coordinator, identifier) {
         // Since new.target is not supported in uglify stage
-        if (this.constructor.name === 'Agent') {
+        if (this.constructor.name === Agent.name) {
             throw new TypeError("Abstract class");
         }
 
