@@ -69,7 +69,19 @@ aResponse.bind(aCoordinator.ask("hello", "World"));
 Create/Retrieve an agent using its name.
 
 ```
-coordinator#agent :: string -> Agent
+coordinator.agent :: string -> Agent
+```
+
+Create/Retrieve an agent using its name.
+
+```
+coordinator.agent :: string -> Agent
+```
+
+Destroy an agent using its name.
+
+```
+coordinator.dispose :: string -> unit
 ```
 
 ### Agent interaction
@@ -77,7 +89,7 @@ coordinator#agent :: string -> Agent
 Ask a identified agent. This returns a promise.
 
 ```
-coordinator#ask :: (string,'a) -> Promise 'b'
+coordinator.ask :: (string,'a) -> Promise 'b'
 ```
 
 ## License

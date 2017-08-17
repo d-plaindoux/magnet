@@ -30,6 +30,11 @@ class /* abstract */ Agent {
         return this.identifier;
     }
 
+    // :: unit -> unit
+    dispose() {
+        this.coordinator.dispose(this.identifier);
+    }
+
     // :: (Request,Response) -> unit
     ask(request, response) {
         this.mailbox.push({request:request, response:response});

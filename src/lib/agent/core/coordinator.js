@@ -124,12 +124,12 @@ class Coordinator {
     //
 
     // :: Agent -> unit
-    registerAgent(anAgent) {
+    register(anAgent) {
         this.universe.set(anAgent.getIdentifier(), anAgent);
     }
 
     // :: string -> unit
-    disposeAgent(identifier) {
+    dispose(identifier) {
         if (this.hasAgent(identifier)) {
             this.agent(identifier).unbind();
             this.universe.delete(identifier);
@@ -151,7 +151,7 @@ class Coordinator {
 
         if (!anAgent) {
             anAgent = unboundAgent(this, identifier);
-            this.registerAgent(anAgent);
+            this.register(anAgent);
         }
 
         return anAgent;

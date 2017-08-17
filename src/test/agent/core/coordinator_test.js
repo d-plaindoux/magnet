@@ -105,7 +105,7 @@ export default  {
           aResponse = response(v => null, v => value = v, _ => null);
 
     aCoordinator.agent('test');
-    aCoordinator.disposeAgent('test');
+    aCoordinator.dispose('test');
 
     aCoordinator.askNow('test', request("getValue",[]), aResponse);
 
@@ -122,7 +122,7 @@ export default  {
           aResponse = response(v => null, v => value = v, _ => null);
 
     aCoordinator.agent('test').bind(reflexive(new Test0()));
-    aCoordinator.disposeAgent('test');
+    aCoordinator.dispose('test');
 
     aCoordinator.askNow('test', request("getValue",[]), aResponse);
 
@@ -267,9 +267,23 @@ export default  {
           aTestModel = new Test0();
 
     aCoordinator.agent('test').bind(reflexive(aTestModel));
-    aCoordinator.disposeAgent('test');
+    aCoordinator.dispose('test');
 
     test.equal(aTestModel.value, -1, 'should call immediately an test Agent getValue.');
     test.done();
-  }
+  },
+
+  'coordinator can dispose a bound agent': function(test) {
+    test.expect(1);
+
+    var value = 0;
+
+    const aCoordinator = coordinator(),
+            aTestModel = new Test0();
+
+    aCoordinator.agent('test').bind(reflexive(aTestModel)).dispose();
+
+    test.equal(aTestModel.value, -1, 'should call immediately an test Agent getValue.');
+    test.done();
+  },
 }
