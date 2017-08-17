@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/d-plaindoux/magnet.svg?branch=master)](https://travis-ci.org/d-plaindoux/magnet)
 [![Coverage Status](https://coveralls.io/repos/github/d-plaindoux/magnet/badge.svg?branch=master)](https://coveralls.io/github/d-plaindoux/magnet?branch=master)
-[![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
+[![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
 ## Introduction
 
@@ -51,8 +51,6 @@ aCoordinator.agent("hello").bind(new Hello());
 #### Asking `World` job to the `hello` agent
 
 ```javascript
-const aResponse = response(v => console.log(v));
-
 // ask returns a Promise
 aCoordinator.ask("hello", "World").then(console.log);
 ```
@@ -62,6 +60,24 @@ Using explicit response handler bound to the promise:
 const aResponse = response(v => console.log(v));
 
 aResponse.bind(aCoordinator.ask("hello", "World"));
+```
+
+## Coordinator physiology
+
+### Agent creation and life cycle
+
+Create/Retrieve an agent using its name.
+
+```
+coordinator#agent :: string -> Agent
+```
+
+### Agent interaction
+
+Ask a identified agent. This returns a promise.
+
+```
+coordinator#ask :: (string,'a) -> Promise 'b'
 ```
 
 ## License

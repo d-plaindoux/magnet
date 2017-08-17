@@ -161,7 +161,7 @@ class Coordinator {
     // ask and broadcast mechanisms
     //
 
-    // :: (string, Resquest) -> Promise
+    // :: (string, 'a) -> Promise 'b
     ask(identifier, request, response) {
         return new Promise((onSuccess, onError) => {
             const response = responseHandler(onSuccess, onError);
@@ -174,7 +174,7 @@ class Coordinator {
         });
     }
 
-    // :: (Resquest) -> unit
+    // :: 'a -> unit
     broadcast(request) {
         this.universe.forEach(anAgent => anAgent.ask(request));
     }
@@ -183,7 +183,7 @@ class Coordinator {
     // Private behavior for immediat event processing
     //
 
-    // :: (string, Resquest, Response) -> unit
+    // :: (string, 'a, Response 'b) -> unit
     askNow(identifier, request, response) {
         if (this.hasAgent(identifier)) {
             this.agent(identifier).askNow(request, response);

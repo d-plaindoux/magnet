@@ -8,7 +8,7 @@
 
 class ResponseHandler {
 
-    // :: ('a -> unit ) -> ('b -> unit)  -> (unit -> unit) -> Response 'a 'b
+    // :: ('a -> unit ) -> (Error -> unit)  -> (unit -> unit) -> Response 'a
     constructor(success, failure, timeout) {
         this._success = success;
         this._failure = failure;
@@ -36,7 +36,7 @@ class ResponseHandler {
     }
 }
 
-// :: ('a -> unit ) -> ('b -> unit ) -> (unit  -> unit ) -> Response 'a 'b throws ReferenceError
+// :: ('a -> unit ) -> (Error -> unit ) -> (unit  -> unit ) -> Response 'a throws ReferenceError
 function responseHandler(success=(_ => null), failure=(_ => null), timeout=(_ => null)) {
     return new ResponseHandler(success, failure, timeout);
 }
