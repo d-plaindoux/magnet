@@ -39,7 +39,6 @@ class Coordinator {
 
     // :: (string, unit -> unit, int) -> Coordinator
     startRunner(name, callback, duration) {
-        this.logger("Starting the " + name + " runner");
         return setInterval(callback, duration);
     }
 
@@ -69,7 +68,6 @@ class Coordinator {
 
     // :: (string,runner) -> undefined
     stopRunner(name, runner) {
-        this.logger("Stopping the " + name + " runner");
         clearInterval(runner);
         return undefined;
     }
@@ -172,6 +170,15 @@ class Coordinator {
         }
     }
 
+    // :: (Resquest) -> unit
+    broadcast(request) {
+        this.universe.forEach(anAgent => anAgent.ask(request));
+    }
+
+    //
+    // Private behavior for immediat event processing
+    //
+
     // :: (string, Resquest, Response) -> unit
     askNow(identifier, request, response) {
         if (this.hasAgent(identifier)) {
@@ -182,12 +189,6 @@ class Coordinator {
             }
         }
     }
-
-    // :: (Resquest) -> unit
-    broadcast(request) {
-        this.universe.forEach(anAgent => anAgent.ask(request));
-    }
-
 }
 
 // :: Logger? -> Coordinator
