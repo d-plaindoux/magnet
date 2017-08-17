@@ -153,7 +153,7 @@ export default  {
           aResponse = response(v => value = v, _ => null, _ => null);
 
     aCoordinator.agent('test').bind(reflexive(new Test0()));
-    aCoordinator.ask('test', request("getValue",[]), aResponse);
+    aResponse.bind(aCoordinator.ask('test', request("getValue",[])));
 
     setTimeout(() => {
         test.equal(value, 1, 'should call a test Agent getValue.');
@@ -170,14 +170,13 @@ export default  {
           aResponse = response(v => value = v, _ => null, _ => null);
 
     aCoordinator.agent('test').bind(reflexive(new Test0()));
-
-    aCoordinator.ask('test', request("getValue",[]), aResponse);
+    aResponse.bind(aCoordinator.ask('test', request("getValue",[])));
 
     setTimeout(() => {
         test.equal(value, 1, 'should call a test Agent getValue.');
 
         aCoordinator.ask('test', request("setValue",[2]));
-        aCoordinator.ask('test', request("getValue",[]), aResponse);
+        aResponse.bind(aCoordinator.ask('test', request("getValue",[])));
 
         setTimeout(() => {
             test.equal(value, 2, 'should call a test Agent getValue after a set value.');
@@ -197,7 +196,7 @@ export default  {
           aResponse = response(v => value = v, _ => null, _ => null);
 
     aCoordinator.agent('test').bind(reflexive(new Test0()));
-    aCoordinator.ask('test', request("getValue",[]), aResponse);
+    aResponse.bind(aCoordinator.ask('test', request("getValue",[])));
 
     aCoordinator.start();
 
@@ -218,7 +217,7 @@ export default  {
     aCoordinator.agent('test').bind(reflexive(new Test0()));
     aCoordinator.stop();
 
-    aCoordinator.ask('test', request("getValue",[]), aResponse);
+    aResponse.bind(aCoordinator.ask('test', request("getValue",[])));
 
     setTimeout(() => {
         test.equal(value, 0, 'should not call a test Agent getValue when coordinator is not running.');
@@ -234,7 +233,7 @@ export default  {
     const aCoordinator = coordinator().start(),
           aResponse = response(v => null, v => value = v, _ => null);
 
-    aCoordinator.ask('test', request("getValue",[]), aResponse);
+    aResponse.bind(aCoordinator.ask('test', request("getValue",[])));
 
     setTimeout(() => {
         test.deepEqual(value, new EvalError("Agent not found"), 'should not call an Agent unknwon.');
@@ -269,7 +268,7 @@ export default  {
 
     aCoordinator.agent('test').bind(reflexive(aTestModel));
     aCoordinator.disposeAgent('test');
-    
+
     test.equal(aTestModel.value, -1, 'should call immediately an test Agent getValue.');
     test.done();
   }

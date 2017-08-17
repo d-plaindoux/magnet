@@ -6,7 +6,7 @@
 
 ## Introduction
 
-Magnet is a simple library dedicated to aynchronous and distributed execution 
+Magnet is a simple library dedicated to asynchronous and distributed execution
 based on agent management thanks to a coordinator component.
 
 ### Hello World!
@@ -23,7 +23,7 @@ function hello(request, response) {
 }
 ```
 
-Then such function can simply managed by an agent and hosted by a given 
+Then such function can simply managed by an agent and hosted by a given
 coordinator.
 
 ```javascript
@@ -53,7 +53,15 @@ aCoordinator.agent("hello").bind(new Hello());
 ```javascript
 const aResponse = response(v => console.log(v));
 
-aCoordinator.ask("hello", "World", aResponse);
+// ask returns a Promise
+aCoordinator.ask("hello", "World").then(console.log);
+```
+
+Using explicit response handler bound to the promise:
+```javascript
+const aResponse = response(v => console.log(v));
+
+aResponse.bind(aCoordinator.ask("hello", "World"));
 ```
 
 ## License
@@ -74,7 +82,3 @@ You  should have  received a  copy of  the GNU  Lesser General  Public
 License along with  this program; see the file COPYING.  If not, write
 to the  Free Software Foundation,  675 Mass Ave, Cambridge,  MA 02139,
 USA.
-
-
-
-

@@ -29,6 +29,11 @@ class ResponseHandler {
     timeout() {
         this._timeout();
     }
+
+    // :: Promise -> Promise
+    bind(promise) {
+        return promise.then(this._success, this._failure);
+    }
 }
 
 // :: ('a -> unit ) -> ('b -> unit ) -> (unit  -> unit ) -> Response 'a 'b throws ReferenceError

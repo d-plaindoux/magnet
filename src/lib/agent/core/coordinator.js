@@ -6,7 +6,9 @@
  * Licensed under the LGPL2 license.
  */
 
+import Promise from "promise"
 import unboundAgent from "./unbound_agent";
+import responseHandler from './response_handler';
 
 class Coordinator {
 
@@ -159,15 +161,17 @@ class Coordinator {
     // ask and broadcast mechanisms
     //
 
-    // :: (string, Resquest, Response) -> unit
+    // :: (string, Resquest) -> Promise
     ask(identifier, request, response) {
-        if (this.hasAgent(identifier)) {
-            this.agent(identifier).ask(request, response);
-        } else {
-            if (response) {
+        return new Promise((onSuccess, onError) => {
+            const response = responseHandler(onSuccess, onError);
+
+            if (this.hasAgent(identifier)) {
+                this.agent(identifier).ask(request, response);
+            } else {
                 response.failure(new EvalError("Agent not found"));
             }
-        }
+        });
     }
 
     // :: (Resquest) -> unit

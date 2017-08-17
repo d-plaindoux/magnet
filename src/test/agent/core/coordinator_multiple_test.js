@@ -46,7 +46,7 @@ export default  {
 
     for(var i = 0; i < numberOfCall; i++) {
         const j = i, aResponse = response(v => values[j] = v, _ => null, _ => null);
-        aCoordinator.ask('test', request("getValue",[]), aResponse);
+        aResponse.bind(aCoordinator.ask('test', request("getValue",[])));
     }
 
     setTimeout(() => {
@@ -69,7 +69,7 @@ export default  {
     for(var i = 0; i < numberOfCall; i++) {
         const j = i, aResponse = response(v => values[j] = v, _ => null, _ => null);
         aCoordinator.agent('test' + i).bind(reflexive(new Test0()));
-        aCoordinator.ask('test' + i, request("getValue",[]), aResponse);
+        aResponse.bind(aCoordinator.ask('test' + i, request("getValue",[])));
     }
 
     setTimeout(() => {
