@@ -72,12 +72,6 @@ Create/Retrieve an agent using its name.
 coordinator.agent :: string -> Agent
 ```
 
-Create/Retrieve an agent using its name.
-
-```
-coordinator.agent :: string -> Agent
-```
-
 Destroy an agent using its name.
 
 ```
