@@ -94,11 +94,11 @@ class Coordinator {
 
     // :: unit -> unit
     jobRunner() {
-        if (this.pendingJobs.length > 0) {
+        while (this.pendingJobs.length > 0) {
             this.pendingJobs.shift()();
-        } else {
-            this.stopJobRunner();
         }
+
+        this.stopJobRunner();
     }
 
     // :: unit -> unit

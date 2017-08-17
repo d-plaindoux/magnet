@@ -18,11 +18,11 @@ class Test0 {
     constructor() {
         this.value = 1;
     }
-    
+
     getValue() {
         return this.value;
     }
-    
+
     setValue(value) {
         this.value = value;
     }
@@ -35,53 +35,48 @@ export default  {
 
   'coordinator can ask an existing agent X times': function(test) {
     var numberOfCall = 100;
-      
-    test.expect(numberOfCall);    
-      
+
+    test.expect(numberOfCall);
+
     var values = Array(numberOfCall);
-      
+
     const aCoordinator = coordinator().start();
-      
-    aCoordinator.agent('test').bind(reflexive(new Test0())); 
+
+    aCoordinator.agent('test').bind(reflexive(new Test0()));
 
     for(var i = 0; i < numberOfCall; i++) {
-        const j = i, aResponse = response(v => values[j] = v, _ => null, _ => null);  
-        aCoordinator.ask('test', request("getValue",[]), aResponse);        
+        const j = i, aResponse = response(v => values[j] = v, _ => null, _ => null);
+        aCoordinator.ask('test', request("getValue",[]), aResponse);
     }
-       
+
     setTimeout(() => {
         for(var i = 0; i < numberOfCall; i++) {
-            const j = i;
-            test.equal(values[j], 1, 'should call a test Agent ' + i + ' getValue.');
+            test.equal(values[i], 1, 'should call a test Agent ' + i + ' getValue.');
         }
-        test.done();        
+        test.done();
     }, 1000);
-  },   
+  },
 
-    
   'coordinator can ask existing X agent one time': function(test) {
     var numberOfCall = 100;
-      
-    test.expect(numberOfCall);    
-      
+
+    test.expect(numberOfCall);
+
     var values = Array(numberOfCall);
-      
+
     const aCoordinator = coordinator().start();
-      
+
     for(var i = 0; i < numberOfCall; i++) {
-        const j = i, aResponse = response(v => values[j] = v, _ => null, _ => null);  
-        aCoordinator.agent('test' + i).bind(reflexive(new Test0())); 
-        aCoordinator.ask('test' + i, request("getValue",[]), aResponse);        
+        const j = i, aResponse = response(v => values[j] = v, _ => null, _ => null);
+        aCoordinator.agent('test' + i).bind(reflexive(new Test0()));
+        aCoordinator.ask('test' + i, request("getValue",[]), aResponse);
     }
-       
+
     setTimeout(() => {
         for(var i = 0; i < numberOfCall; i++) {
-            const j = i;
-            test.equal(values[j], 1, 'should call a test Agent number ' + i + ' getValue.');
+            test.equal(values[i], 1, 'should call a test Agent number ' + i + ' getValue.');
         }
-        test.done();        
+        test.done();
     }, 1000);
-  },   
+  },
 }
-    
-    

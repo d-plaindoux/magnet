@@ -53,5 +53,7 @@
     "uglifyify": "^3.0.4",
     "rimraf": "^2.6.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "promise": "~7.0.2"
+  }
 }

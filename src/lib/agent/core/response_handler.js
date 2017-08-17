@@ -7,33 +7,33 @@
  */
 
 class ResponseHandler {
-    
-    // :: ('a -> unit ) -> ('b -> unit  -> (unit -> unit) -> Response 'a 'b
+
+    // :: ('a -> unit ) -> ('b -> unit)  -> (unit -> unit) -> Response 'a 'b
     constructor(success, failure, timeout) {
         this._success = success;
         this._failure = failure;
         this._timeout = timeout
     }
-    
-    // :: 'a -> unit   
+
+    // :: 'a -> unit
     success(value) {
-        this._success(value);           
+        this._success(value);
     }
-    
-    // :: 'b -> unit  
+
+    // :: 'b -> unit
     failure(value) {
-        this._failure(value);               
+        this._failure(value);
     }
-        
-    // :: unit -> unit   
+
+    // :: unit -> unit
     timeout() {
-        this._timeout();               
-    }    
+        this._timeout();
+    }
 }
 
 // :: ('a -> unit ) -> ('b -> unit ) -> (unit  -> unit ) -> Response 'a 'b throws ReferenceError
-function responseHandler(success, failure, timeout) {
-    return new ResponseHandler(success || (_ => null), failure || (_ => null), timeout || (_ => null));        
+function responseHandler(success=(_ => null), failure=(_ => null), timeout=(_ => null)) {
+    return new ResponseHandler(success, failure, timeout);
 }
 
 export default responseHandler;
