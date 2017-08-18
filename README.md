@@ -80,7 +80,7 @@ coordinator.dispose :: string -> unit
 
 ### Agent interaction
 
-Ask a identified agent. This returns a promise.
+Ask an identified agent. This returns a promise.
 
 ```
 coordinator.ask :: (string,'a) -> Promise 'b'
