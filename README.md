@@ -57,7 +57,7 @@ aCoordinator.ask("hello", "World").then(console.log);
 
 Using explicit response handler bound to the promise:
 ```javascript
-const aResponse = response(v => console.log(v));
+const aResponse = response(console.log);
 
 aResponse.bind(aCoordinator.ask("hello", "World"));
 ```
@@ -65,12 +65,6 @@ aResponse.bind(aCoordinator.ask("hello", "World"));
 ## Coordinator physiology
 
 ### Agent creation and life cycle
-
-Create/Retrieve an agent using its name.
-
-```
-coordinator.agent :: string -> Agent
-```
 
 Create/Retrieve an agent using its name.
 
@@ -86,7 +80,7 @@ coordinator.dispose :: string -> unit
 
 ### Agent interaction
 
-Ask a identified agent. This returns a promise.
+Ask an identified agent. This returns a promise.
 
 ```
 coordinator.ask :: (string,'a) -> Promise 'b'
