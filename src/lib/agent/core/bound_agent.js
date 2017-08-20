@@ -19,10 +19,6 @@ class BoundAgent extends Agent {
         super(coordinator, identifier);
 
         this.model = this.handleModel(model);
-
-        if (this.model.boundAsAgent) {
-            this.model.boundAsAgent(this.coordinator, this);
-        }
     }
 
     // :: unit -> boolean

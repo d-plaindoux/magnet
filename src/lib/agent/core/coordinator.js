@@ -7,6 +7,7 @@
  */
 
 import Promise from "promise"
+import agentReference from "./agent_reference";
 import unboundAgent from "./unbound_agent";
 import responseHandler from './response_handler';
 
@@ -103,7 +104,8 @@ class Coordinator {
 
     // :: unit -> unit
     agentRunner() {
-        this.universe.forEach(agent => {
+        this.universe.forEach(agentReference => {
+            const agent = agentReference.getAgent();
             const message = agent.nextMessage();
             if (message) {
                 this.pendingJobs.push(() =>
@@ -120,23 +122,6 @@ class Coordinator {
     }
 
     //
-    // Agent (un)registration features
-    //
-
-    // :: Agent -> unit
-    register(anAgent) {
-        this.universe.set(anAgent.getIdentifier(), anAgent);
-    }
-
-    // :: string -> unit
-    dispose(identifier) {
-        if (this.hasAgent(identifier)) {
-            this.agent(identifier).unbind();
-            this.universe.delete(identifier);
-        }
-    }
-
-    //
     // Agent creation and deletion
     //
 
@@ -147,14 +132,29 @@ class Coordinator {
 
     // :: string -> Agent
     agent(identifier) {
-        var anAgent = this.universe.get(identifier);
-
-        if (!anAgent) {
-            anAgent = unboundAgent(this, identifier);
-            this.register(anAgent);
+        if (this.hasAgent(identifier)) {
+            return this.universe.get(identifier).getAgent();
         }
 
+        var anAgent = unboundAgent(this, identifier);
+        this.universe.set(identifier, agentReference(anAgent));
+
         return anAgent;
+    }
+
+    // :: string -> unit
+    dispose(identifier) {
+        if (this.hasAgent(identifier)) {
+            this.agent(identifier).unbind();
+            this.universe.delete(identifier);
+        }
+    }
+
+    // :: Agent -> unit
+    register(agent) {
+        if (this.hasAgent(agent.getIdentifier())) {
+            this.universe.get(agent.getIdentifier()).setAgent(agent);
+        }
     }
 
     //
@@ -162,21 +162,20 @@ class Coordinator {
     //
 
     // :: (string, 'a) -> Promise 'b
-    ask(identifier, request, response) {
+    ask(identifier, request) {
         return new Promise((onSuccess, onError) => {
-            const response = responseHandler(onSuccess, onError);
-
             if (this.hasAgent(identifier)) {
-                this.agent(identifier).ask(request, response);
+                this.agent(identifier)
+                    .ask(request, responseHandler(onSuccess, onError));
             } else {
-                response.failure(new EvalError("Agent not found"));
+                onError(new EvalError("Agent not found"));
             }
         });
     }
 
     // :: 'a -> unit
     broadcast(request) {
-        this.universe.forEach(anAgent => anAgent.ask(request));
+        this.universe.forEach(agentReference => agentReference.getAgent().ask(request));
     }
 
     //

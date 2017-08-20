@@ -30,8 +30,14 @@ class UnboundAgent extends Agent {
 
     // :: 'a -> BoundAgent 'a
     bind(model) {
-        var anAgent = boundAgent(this.coordinator, this.identifier, model);
+        const anAgent = boundAgent(this.coordinator, this.identifier, model);
+
         this.coordinator.register(anAgent);
+
+        if (model.boundAsAgent) {
+            model.boundAsAgent(this.coordinator, this);
+        }
+
         return anAgent;
     }
 
