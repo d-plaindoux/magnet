@@ -23,7 +23,7 @@ function hello(request, response) {
 }
 ```
 
-Then such function can simply managed by an agent and hosted by a given
+Then such function can be simply managed by an agent and hosted by a given
 coordinator.
 
 ```javascript
